@@ -1,0 +1,11 @@
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.deps.json
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.runtimeconfig.json
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.runtimeconfig.dev.json
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.dll
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csprojAssemblyReference.cache
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csproj.CoreCompileInputs.cache
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfoInputs.cache
+C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfo.cs
