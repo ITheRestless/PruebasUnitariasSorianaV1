@@ -34,6 +34,25 @@ namespace Prueba_de_Pruebas.Modelos
         public long idNumLstComp { get; set; }
     }
 
+    public partial class Articulo2
+    {
+        [JsonProperty("articulo")]
+        public long articulo1 { get; set; }
+
+        [JsonProperty("cantidad")]
+        public long cantidad1 { get; set; }
+
+        [JsonProperty("idLista")]
+        public long idLista1 { get; set; }
+
+        public Articulo2(long articulo, long cantidad, long idLista)
+        {
+            articulo1 = articulo;
+            cantidad1 = cantidad;
+            idLista1 = idLista;
+        }
+    }
+
     public partial class ComentarioArticulo
     {
         [JsonProperty("idArticulo")]

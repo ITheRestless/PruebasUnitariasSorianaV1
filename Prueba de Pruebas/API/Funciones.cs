@@ -15,10 +15,11 @@ namespace Prueba_de_Pruebas
         string urlbase = "https://appsor02.soriana.com";
 
         #region Cliente
+
         public Modelo_Prueba_Ejecutar RegisterUser(Cliente cliente)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/account/Register";
+            string controlador = "/api/account/RegisterNew";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
@@ -34,7 +35,7 @@ namespace Prueba_de_Pruebas
 
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
-                request.AddHeader("Content-Type", "application/json");
+                request.AddHeader("disp", "Android");
                 request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
 
                 DateTime fechaInicio = DateTime.Now;
@@ -74,11 +75,11 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar PruebaLogin_ObtenerToken(Cliente cli, out BearerToken token)
+        public Modelo_Prueba_Ejecutar PruebaLogin_ObtenerToken(ClienteAlterno cli, out BearerToken token)
         {
 
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/token/GetToken2";
+            string controlador = "/api/token/GetToken";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
@@ -136,14 +137,14 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar ModificarCliente(out Cliente clienteNuevo, Cliente clienteActual, BearerToken token)
+        public Modelo_Prueba_Ejecutar ModificarCliente(out ClienteAlterno clienteNuevo, ClienteAlterno clienteActual, BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
 
             string controlador = "/api/account/UpdateAccountInfo";
             string endpoint = urlbase + controlador;
 
-            Cliente cliente = clienteActual;
+            ClienteAlterno cliente = clienteActual;
             cliente.ApellidoPaterno = "Reyes";
             cliente.ApellidoMaterno = "Martínez";
             cliente.Telefono = "8717321111";
@@ -163,7 +164,7 @@ namespace Prueba_de_Pruebas
                 var request = new RestRequest(Method.PUT);
                 request.AddHeader("bearertoken", token.AccessToken);
                 request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
+                request.AddParameter("application/json", clienteNuevo.ToJson(), ParameterType.RequestBody);
 
                 DateTime fechaInicio = DateTime.Now;
                 auxRetorno.FECHAINICIO = fechaInicio;
@@ -402,7 +403,7 @@ namespace Prueba_de_Pruebas
                 var client = new RestClient(endpoint);
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
-                request.AddHeader("email", cliente.Email);
+                request.AddHeader("email", cliente.Mail);
                 request.AddHeader("Content-Type", "application/json");
 
                 DateTime fechaInicio = DateTime.Now;
@@ -442,40 +443,32 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar VincularTarjetaLealtad(BearerToken token)
+        public Modelo_Prueba_Ejecutar ConfirmarCodigo(BearerToken token, Cliente cliente)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-
-            TarjetaLealtadM tarjetaLealtadM = new TarjetaLealtadM()
-            {
-                TarjetaLealtad = "3086812800013707",
-                TelefonoCelular = "8183299000"
-            };
-
-            string controlador = "/api/account/ProgramaLealtad";
+            string controlador = "/api/account/ValidarCodigo";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
             auxRetorno.BATCH = 0;
             auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 8;
-            auxRetorno.PRUEBA = "Vincular tarjeta de lealtad";
+            auxRetorno.PRUEBA = "Validar Codigo";
+            auxRetorno.idPRUEBA = 64;
 
             try
             {
                 var client = new RestClient(endpoint);
+
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", tarjetaLealtadM.ToJson(), ParameterType.RequestBody);
+                request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
 
                 DateTime fechaInicio = DateTime.Now;
                 auxRetorno.FECHAINICIO = fechaInicio;
 
                 Stopwatch sw = Stopwatch.StartNew();
 
-                //EJECUTA
                 IRestResponse response = client.Execute(request);
 
                 sw.Stop();
@@ -487,7 +480,67 @@ namespace Prueba_de_Pruebas
                 {
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "Tarjeta vinculada exitosamente";
+                    auxRetorno.RESPUESTA = "Se validó el código correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        } 
+
+        public Modelo_Prueba_Ejecutar ReenviarCodigo(BearerToken token, Cliente cliente)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/account/ReenviarCodigo";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Reenviar Codigo";
+            auxRetorno.idPRUEBA = 66;
+
+            try
+            {
+                var client = new RestClient(endpoint);
+
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddHeader("email", cliente.Mail);
+                request.AddHeader("nombre", cliente.Nombre);
+                request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se reenvió el código correctamente";
                 }
                 else
                 {
@@ -507,9 +560,324 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
+        public Modelo_Prueba_Ejecutar VincularTarjeta(BearerToken token, Cliente cliente)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/account/VincularTarjeta";
+            string endpoint = urlbase + controlador;
+
+            TarjetaLealtadM tarjetaLealtadM = new TarjetaLealtadM()
+            {
+                Mail = cliente.Mail,
+                LoyaltyAccount = "3086812845384691"
+            };
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Vincular Tarjeta";
+            auxRetorno.idPRUEBA = 67;
+            
+            try
+            {
+                var client = new RestClient(endpoint);
+
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddParameter("application/json", tarjetaLealtadM.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se vinculó la tarjeta correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        } 
+
+        public Modelo_Prueba_Ejecutar VincularTarjetaTicket(BearerToken token)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/account/VincularTarjetaTicket";
+            string endpoint = urlbase + controlador;
+
+            TarjetaLealtadM tarjetaLealtadM = new TarjetaLealtadM()
+            {
+                LoyaltyAccount = "3086812845384691",
+                Ticket = "00041207018001600550"
+            };
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Vincular Tarjeta Ticket";
+            auxRetorno.idPRUEBA = 68;
+
+            try
+            {
+                var client = new RestClient(endpoint);
+
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddParameter("application/json", tarjetaLealtadM.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se vinculó la tarjeta correctamente con el ticket";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar CrearVirtual(BearerToken token)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/account/CrearTarjetaVirtual";
+            string endpoint = urlbase + controlador;
+
+            TarjetaLealtadM tarjetaLealtadM = new TarjetaLealtadM()
+            {
+                Mail = "testmail5@gmail.com"
+            };
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Crear Tarjeta Virtual";
+            auxRetorno.idPRUEBA = 69;
+
+            try
+            {
+                var client = new RestClient(endpoint);
+
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddParameter("application/json", tarjetaLealtadM.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se creó la tarjeta virtual correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar CambioTarjeta(BearerToken token)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/account/CambioTarjeta";
+            string endpoint = urlbase + controlador;
+
+            TarjetaLealtadM tarjetaLealtadM = new TarjetaLealtadM()
+            {
+                LoyaltyAccount = "3086812845384691"
+            };
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Cambio Tarjeta";
+            auxRetorno.idPRUEBA = 10075;
+
+            try
+            {
+                var client = new RestClient(endpoint);
+
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddParameter("application/json", tarjetaLealtadM.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se cambió la tarjeta correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar RegisterUser2(Cliente cliente)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/account/RegisterNew2";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Registrar Usuario 2";
+            auxRetorno.idPRUEBA = 10074;
+
+            try
+            {
+
+                var client = new RestClient(endpoint);
+
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("disp", "Android");
+                request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se registró el usuario correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
         #endregion
 
         #region Do search
+
         public Modelo_Prueba_Ejecutar BusquedaPorSentencia()
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -691,9 +1059,67 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
+        public Modelo_Prueba_Ejecutar ArticulosPorPromocion()
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/dosearch/articulosPorPromocion";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.PRUEBA = "Articulos por Promocion";
+            auxRetorno.idPRUEBA = 10072;
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("Content-Type", "application/json");
+                request.AddParameter("application/json", "{\r\n    \"sentencia\":\"\",\r\n    \"page\":\"1\",\r\n    \"idTienda\":\"14\",\r\n    \"brandId\":\"\",\r\n    \"categoryId\":\"\",\r\n    \"orderType\":\"0\",\r\n    \"promotionId\":\"\",\r\n  \"tag\":\"11386730\"\r\n}", ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.Content.Contains("HARINA"))
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se obtuvieron los artículos correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
         #endregion
 
         #region Carrito promos elegibles
+
         public Modelo_Prueba_Ejecutar CrearVisita(BearerToken token, out int visita)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -983,64 +1409,6 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar ComentarioCarrito(Cliente cliente, BearerToken token)
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/carrito/comentario";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 16;
-            auxRetorno.PRUEBA = "Comentario en el carrito";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("comentario", "Prueba unitaria hecha por el usuario: " + cliente.Email);
-                request.AddHeader("Content-Type", "application/json");
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "Se agregó un comentario al carrito correctamente";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
-
         public Modelo_Prueba_Ejecutar AgregarArregloCarrito4(Cliente cliente, BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -1120,18 +1488,18 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar ComentarioArticuloCarrito2(Cliente cliente, BearerToken token)
+        public Modelo_Prueba_Ejecutar ComentarioArticuloCarrito3(Cliente cliente, BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
 
             ComentarioArticulo comentarioArticulo = new ComentarioArticulo()
             {
                 IdArticulo = 8003490,
-                DescComentarioOpc = "Comentario de pruebas unitarias por el usuario " + cliente.Email,
+                DescComentarioOpc = "Comentario de pruebas unitarias por el usuario " + cliente.Mail,
                 IdTienda = 24
             };
 
-            string controlador = "/api/carrito/comentarioArticulo2";
+            string controlador = "/api/carrito/comentarioArticulo3";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
@@ -1198,7 +1566,7 @@ namespace Prueba_de_Pruebas
                 IdNumPromCanje = 11376930
             };
 
-            string controlador = "/api/carrito/CanjePuntos";
+            string controlador = "/api/carrito/CanjePuntos2";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
@@ -1252,9 +1620,11 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Direccion
+
         public Modelo_Prueba_Ejecutar NuevaDireccion(BearerToken token, out Direccion direccion)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -1564,6 +1934,62 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
+        public Modelo_Prueba_Ejecutar ValidarCP ()
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/direccion/validarCP";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 8;
+            auxRetorno.PRUEBA = "Validar CP";
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("CP", "64610");
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "CP validado correctamente.";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
         #endregion
 
         #region Listas
@@ -1633,73 +2059,6 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar CambiarNombre(Cliente cliente, BearerToken token, out List<RespuestaCrearLista> listaNueva, List<RespuestaCrearLista> listaVieja)
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-
-            List<RespuestaCrearLista> lista = new List<RespuestaCrearLista>();
-            lista = listaVieja;
-            lista[0].NombreLista = "Nombre de lista cambiado por el usuario: " + cliente.Email;
-            lista[0].DescLista = "Descripción de lista cambiada por el usuario: " + cliente.Email;
-
-            listaNueva = lista;
-
-            string controlador = "/api/ListaCompra/CambiarNombre";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 44;
-            auxRetorno.PRUEBA = "Cambiar nombre de lista";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("idLista", listaVieja[0].IdLista.ToString());
-                request.AddHeader("nombre", lista[0].NombreLista);
-                request.AddHeader("descripcion", lista[0].DescLista);
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                // EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-
-                if (response.Content.Contains(listaVieja[0].IdLista.ToString()) && response.Content.Contains(lista[0].NombreLista) && response.Content.Contains(lista[0].DescLista))
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "Se cambio el nombre de la lista correctamente";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
-
         public Modelo_Prueba_Ejecutar ObtenerListados(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -1756,7 +2115,7 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar AgregarALista(BearerToken token, List<Articulo> lista)
+        public Modelo_Prueba_Ejecutar AgregarALista(BearerToken token, List<Articulo2> lista)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
             string controlador = "/api/ListaCompra/AgregarArticulosALista";
@@ -1886,7 +2245,7 @@ namespace Prueba_de_Pruebas
             };
 
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/ListaCompra/EliminarArticulos";
+            string controlador = "/api/ListaCompra/EliminarArticulos2";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
@@ -2319,6 +2678,7 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Pago
+
         public Modelo_Prueba_Ejecutar GenerarURL(BearerToken token, out long id)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2380,17 +2740,17 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar PagoRespuesta(BearerToken token, long idTransaccion)
+        public Modelo_Prueba_Ejecutar SaveRedirect(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/Pago/Respuesta";
+            string controlador = "/api/Pago/SaveRedirect";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
             auxRetorno.BATCH = 0;
             auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 12;
-            auxRetorno.PRUEBA = "Respuesta de pago";
+            auxRetorno.idPRUEBA = 70;
+            auxRetorno.PRUEBA = "Save Redirect";
             try
             {
                 var client = new RestClient(endpoint);
@@ -2398,7 +2758,7 @@ namespace Prueba_de_Pruebas
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("bearertoken", token.AccessToken);
                 request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", "{\"Id_Num_Transaccion\" : " + idTransaccion + "}", ParameterType.RequestBody);
+                request.AddParameter("application/json", "{\"URL\": 37dsdsdsdsd53, \"NumOrden\" :\"111\"}", ParameterType.RequestBody);
 
                 DateTime fechaInicio = DateTime.Now;
                 auxRetorno.FECHAINICIO = fechaInicio;
@@ -2417,7 +2777,7 @@ namespace Prueba_de_Pruebas
                 {
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = response.Content.ToString();
+                    auxRetorno.RESPUESTA = "Se ejecutó correctamente";
                 }
                 else
                 {
@@ -2437,84 +2797,11 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Orden
-        public Modelo_Prueba_Ejecutar CrearOrden(BearerToken token, out Orden nuevaOrden)
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/Orden/New";
-            string endpoint = urlbase + controlador;
-
-            Orden orden = new Orden()
-            {
-                idTipoEntrega = 2,
-                idCnscDirCte_Opc = 1,
-                fechaEntrega = "2020-02-24 15:00:00",
-                bitExpress_Opc = 0,
-                idFormaPago_Opc = 5,
-                montoEfevo_Opc = 500,
-                montoVales_Opc = 0,
-                numTarjeta_Opc = "0",
-                vigenciaTarjeta_Opc = "0",
-                nipTarjeta_Opc = "0",
-                bancoTarjeta_Opc = "0"
-            };
-
-            nuevaOrden = orden;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 20;
-            auxRetorno.PRUEBA = "Crear orden";
-
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", orden.ToJson(), ParameterType.RequestBody);
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-                Stopwatch sw = Stopwatch.StartNew();
-
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
-
+        
         public Modelo_Prueba_Ejecutar InfoOrden(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2609,6 +2896,12 @@ namespace Prueba_de_Pruebas
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se retornaron correctamente las ordenes en proceso";
                 }
+                else if(response.Content.Contains("No tienes pedidos."))
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se ejecutó correctamente, sin embargo no cuentas con pedidos";
+                }
                 else
                 {
                     auxRetorno.ESTADO = false;
@@ -2687,7 +2980,7 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar FechaHoraEntrega1(BearerToken token)
+        public Modelo_Prueba_Ejecutar FechaHoraEntrega(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
             string controlador = "/api/Orden/FechaHora";
@@ -2912,64 +3205,6 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Sin categoria
-        public Modelo_Prueba_Ejecutar ResizeImage()
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/image/resize";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 34;
-            auxRetorno.PRUEBA = "Comprimir imágenes";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.GET);
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("cadena", "http://aplweb.soriana.com/foto/fotolib/76/75009076/75009076-02-09-01.jpg");
-                request.AddParameter("width", "80");
-                request.AddParameter("height", "80");
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "La imagen se comprimió correctamente";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
 
         public Modelo_Prueba_Ejecutar GetFolletos()
         {
@@ -3008,62 +3243,6 @@ namespace Prueba_de_Pruebas
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se obtuvieron los folletos correctamente";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
-
-        public Modelo_Prueba_Ejecutar SendFeedback(Cliente cliente)
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/Feedback/Send";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 37;
-            auxRetorno.PRUEBA = "Feedback";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", "{\"Experiencia\":\"Todo bien \",\"Descripcion\":\"Desc. feedback\",\"Tipo\":\"Bug\"}", ParameterType.RequestBody);
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "Se envió correctamente el mensaje de feedback";
                 }
                 else
                 {
@@ -3246,6 +3425,60 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
+        public Modelo_Prueba_Ejecutar Regiones()
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/regiones/get3";
+            string endpoint = urlbase + controlador;
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 10073;
+            auxRetorno.PRUEBA = "Regiones";
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.GET);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+                Stopwatch sw = Stopwatch.StartNew();
+
+                //EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se obtuvieron las regiones correctamente.";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
         #endregion
 
         #region Stores
@@ -3362,14 +3595,40 @@ namespace Prueba_de_Pruebas
         public Modelo_Prueba_Ejecutar PoblacionesTiendas(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/direccion/poblacion";
+            string controlador = "/api/Stores/StoresPoblacion";
             string endpoint = urlbase + controlador;
+
+            List<PoblacionTienda> poblacionTiendaList = new List<PoblacionTienda>();
+                poblacionTiendaList.Add(new PoblacionTienda()
+                {
+                    Id = 1,
+                    Name = "SANTO DOMINGO",
+                    LogoPath = "",
+                    Latitude = 25.7502,
+                    Longitude = -100.2569,
+                    Image = null,
+                    Radio = 5000,
+                    IdNumLogo = 1,
+                    TipoTienda = 1,
+                    BitServ = false,
+                    BitReco = false,
+                    Telefono = "8183299099",
+                    Direccion = "AV. S. DOMINGO Y AV. DIAZ DE BERLANGA NO. 1800  SANTO DOMINGO",
+                    Region = 2,
+                    IdsNumPoblacion = 973,
+                    IdNumPais = 1,
+                    IdNumEstado = 19,
+                    IdNumPoblacion = 46,
+                    NomEstado = "NUEVO LEON",
+                    NomPoblacion = "SAN NICOLAS DE LOS GARZA"
+                });
 
             auxRetorno.AMBIENTE = urlbase;
             auxRetorno.BATCH = 0;
             auxRetorno.ENDPOINT = endpoint;
             auxRetorno.idPRUEBA = 24;
-            auxRetorno.PRUEBA = "storespoblaciones";
+            auxRetorno.PRUEBA = "Stores Poblaciones";
+
             try
             {
                 var client = new RestClient(endpoint);
@@ -3377,7 +3636,7 @@ namespace Prueba_de_Pruebas
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("CP", "27266");
                 request.AddHeader("bearertoken", token.AccessToken);
-                // AQUÍ VA EL CHORIZO
+                request.AddParameter("application/json", poblacionTiendaList.ToJson(), ParameterType.RequestBody);
 
                 DateTime fechaInicio = DateTime.Now;
                 auxRetorno.FECHAINICIO = fechaInicio;
@@ -3535,6 +3794,62 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Banners 
+
+        public Modelo_Prueba_Ejecutar ObtenerBanners(BearerToken token)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/Banners/GetBanners";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 65;
+            auxRetorno.PRUEBA = "Obtener banners de inicio";
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.GET);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                // EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se obtuvieron los banners de inicio correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
         public Modelo_Prueba_Ejecutar ObtenerBannersInicio(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -3589,6 +3904,191 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
+        #endregion
+
+        #region Favoritos
+
+        public Modelo_Prueba_Ejecutar AgregarArticulosAFavoritos(BearerToken token, List<Articulo> articulos)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/Favoritos/Agregar";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 20;
+            auxRetorno.PRUEBA = "Agregar Artículos a Favoritos";
+
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddHeader("Content-Type", "application/json");
+                request.AddHeader("idTienda", "24");
+                request.AddParameter("application/json", articulos.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                // EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se agregaron los artículos correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar DetalleFavoritos(BearerToken token, List<Articulo> articulos)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/Favoritos/Detalle";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 34;
+            auxRetorno.PRUEBA = "Detalle Favoritos";
+
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddHeader("idLista", "32767");
+                request.AddHeader("idTienda", "24");
+                request.AddParameter("application/json", articulos.ToJson(), ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                // EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se obtuvieron los detalles correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar EliminarArticulosDeFavoritos(BearerToken token)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/Favoritos/Eliminar";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 10071;
+            auxRetorno.PRUEBA = "Eliminar Articulos de Favoritos";
+
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("bearertoken", token.AccessToken);
+                request.AddHeader("ContentType", "application/json");
+                request.AddHeader("idTienda", "24");
+                request.AddParameter("application/json", "[{\"Id_Num_SKU\": 1398561, \"id_Num_LstComp\" :\"32767\"}]", ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                // EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se eliminaron los articulos correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
         #endregion
 
         public void ImprimirError(Modelo_Prueba_Ejecutar auxRetorno)

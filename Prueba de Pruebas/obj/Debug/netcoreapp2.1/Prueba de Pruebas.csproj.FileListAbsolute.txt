@@ -9,10 +9,6 @@ C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\net
 C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csproj.CoreCompileInputs.cache
 C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfoInputs.cache
 C:\Users\Mauricio\source\repos\Prueba de Pruebas\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfo.cs
-C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csprojAssemblyReference.cache
-C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfoInputs.cache
-C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfo.cs
-C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csproj.CoreCompileInputs.cache
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
@@ -21,6 +17,10 @@ C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de P
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.runtimeconfig.dev.json
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\bin\Debug\netcoreapp2.1\Prueba de Pruebas.pdb
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csprojAssemblyReference.cache
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfoInputs.cache
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.AssemblyInfo.cs
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.csproj.CoreCompileInputs.cache
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.pdb
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Prueba de Pruebas\obj\Debug\netcoreapp2.1\Prueba de Pruebas.genruntimeconfig.cache

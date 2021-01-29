@@ -3,88 +3,88 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Prueba_de_Pruebas.Modelos
 {
     public class Cliente
     {
-        [JsonProperty("Id")]
-        public string Id { get; set; }
-
         [JsonProperty("Nombre")]
         public string Nombre { get; set; }
 
-        [JsonProperty("ApellidoPaterno")]
-        public string ApellidoPaterno { get; set; }
+        [JsonProperty("Paterno")]
+        public string Paterno { get; set; }
 
-        [JsonProperty("ApellidoMaterno")]
-        public string ApellidoMaterno { get; set; }
+        [JsonProperty("Materno")]
+        public string Materno { get; set; }
 
-        [JsonProperty("Email")]
-        public string Email { get; set; }
+        [JsonProperty("Mail")]
+        public string Mail { get; set; }
 
-        [JsonProperty("HSId")]
-        public object HsId { get; set; }
+        [JsonProperty("Telefono")]
+        public string Telefono { get; set; }
 
-        [JsonProperty("TokenDevelop")]
-        public object TokenDevelop { get; set; }
+        [JsonProperty("LoyaltyAccount")]
+        public string LoyaltyAccount { get; set; }
+
+        [JsonProperty("CveAcceso")]
+        public string CveAcceso { get; set; }
+
+        [JsonProperty("CveRegistro")]
+        public string CveRegistro { get; set; }
+
+        [JsonProperty("TarjetaNueva")]
+        public string TarjetaNueva { get; set; }
+
+        [JsonProperty("Ticket")]
+        public string Ticket { get; set; }
 
         [JsonProperty("Password")]
         public string Password { get; set; }
 
         [JsonProperty("ConfirmPassword")]
-        public string ConfirmPassword
-        {
-            get
+        public string ConfirmPassword { get; set; }
 
-            { return Password; }
-        }
+        [JsonProperty("Cve_Accion")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long CveAccion { get; set; }
 
-        [JsonProperty("FechaNacimiento")]
-        public object FechaNacimiento { get; set; }
-
-        [JsonProperty("clientId")]
-        public object ClientId { get; set; }
-
-        [JsonProperty("Genero")]
-        public object Genero { get; set; }
-
-        [JsonProperty("LoyaltyAccount")]
-        public object LoyaltyAccount { get; set; }
-
-        [JsonProperty("ValidationTicketId")]
-        public object ValidationTicketId { get; set; }
-
-        [JsonProperty("Telefono")]
-        public string Telefono { get; set; }
-
-        [JsonProperty("TelefonoCelular")]
-        public string TelefonoCelular { get; set; }
-
-        public Cliente(string nombre, string email, string password, string id)
-        {
-            Nombre = nombre;
-            Email = email;
-            Password = password;
-            Id = id;
-        }
         public Cliente(string nombre, string email, string password)
         {
             Nombre = nombre;
-            Email = email;
+            Mail = email;
             Password = password;
-
+            ConfirmPassword = password;
+            CveRegistro = ObtenerCodigoRegistro(email);
         }
+
         public Cliente(string nombre, string email, string password, string apellidoPat, string apellidoMat)
         {
             Nombre = nombre;
-            Email = email;
+            Mail = email;
             Password = password;
-            ApellidoMaterno = apellidoMat;
-            ApellidoPaterno = apellidoPat;
+            ConfirmPassword = password;
+            Paterno = apellidoPat;
+            Materno = apellidoMat;
+            CveRegistro = ObtenerCodigoRegistro(email);
         }
+
         public static Cliente FromJson(string json) => JsonConvert.DeserializeObject<Cliente>(json, Converter.Settings);
+
+        public string ObtenerCodigoRegistro(string usr)
+        {
+
+            int count1 = usr.Length;
+            string count2 = Convert.ToString(Regex.Matches(usr, "a").Count);
+            string count3 = Convert.ToString(Regex.Matches(usr, "e").Count);
+            string count4 = Convert.ToString(Regex.Matches(usr, "i").Count);
+            string count5 = Convert.ToString(Regex.Matches(usr, "o").Count);
+            string count6 = Convert.ToString(Regex.Matches(usr, "u").Count);
+
+            var strCode = count1 + count2 + count3 + count4 + count5 + count6;
+            return strCode.Substring(0, 6);
+        }
 
     }
 }
