@@ -23,6 +23,5 @@ namespace Prueba_de_Pruebas.Modelos
         public static string ToJson(this CanjePuntos self) => JsonConvert.SerializeObject(self, Converter.Settings);
         public static string ToJson(this ClienteAlterno self) => JsonConvert.SerializeObject(self, Converter.Settings);
         public static string ToJson(this List<PoblacionTienda> self) => JsonConvert.SerializeObject(self, Converter.Settings);
-        public static string ToJson(this List<Articulo2> self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
 }

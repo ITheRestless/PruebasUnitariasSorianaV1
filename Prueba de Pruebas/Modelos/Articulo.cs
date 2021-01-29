@@ -29,12 +29,32 @@ namespace Prueba_de_Pruebas.Modelos
 
         [JsonProperty("Id_Num_SKU")]
         public long IdNumSKU { get; set; }
-        
+
         [JsonProperty("id_Num_LstComp")]
         public long idNumLstComp { get; set; }
+
+        public Articulo(long articulo, long cantidad, long idNumVisita, long idTienda, long unidadMedida)
+        {
+            this.articulo = articulo;
+            this.cantidad = cantidad;
+            this.idNumVisita = idNumVisita;
+            this.idTienda = idTienda;
+            this.unidadMedida = unidadMedida;
+        }
+
+        public Articulo(long idNumSKU, long idNumLstComp)
+        {
+            this.IdNumSKU = idNumSKU;
+            this.idNumLstComp = idNumLstComp;
+        }
+
+        public Articulo(long idNumSKU)
+        {
+            this.IdNumSKU = idNumSKU;
+        }
     }
 
-    public partial class Articulo2
+    public partial class Articulo
     {
         [JsonProperty("articulo")]
         public long articulo1 { get; set; }
@@ -45,7 +65,7 @@ namespace Prueba_de_Pruebas.Modelos
         [JsonProperty("idLista")]
         public long idLista1 { get; set; }
 
-        public Articulo2(long articulo, long cantidad, long idLista)
+        public Articulo(long articulo, long cantidad, long idLista)
         {
             articulo1 = articulo;
             cantidad1 = cantidad;

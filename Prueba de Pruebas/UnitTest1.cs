@@ -32,11 +32,11 @@ namespace Prueba_de_Pruebas
 
         static List<RespuestaCrearLista> listaCrearLista = new List<RespuestaCrearLista>();
 
-        static List<Articulo2> listaArticulos = new List<Articulo2>()
+        static List<Articulo> listaArticulos = new List<Articulo>()
         {
-            new Articulo2(245888, 4, listaCrearLista[0].IdLista),
-            new Articulo2(521, 2, listaCrearLista[0].IdLista),
-            new Articulo2(245890, 3, listaCrearLista[0].IdLista)
+            new Articulo(245888, 4, 1),
+            new Articulo(521, 2, 1),
+            new Articulo(245890, 3, 1)
         };
 
         static Cliente clienteprueba = clientes[1];
@@ -242,9 +242,7 @@ namespace Prueba_de_Pruebas
         [TestMethod]
         public void EliminarArticuloLista()
         {
-            CrearLista();
-            AgregarALista();
-            funciones.EliminarArticuloLista(token, listaCrearLista);
+            funciones.EliminarArticuloLista(token, 1);
         }
 
         [TestMethod]

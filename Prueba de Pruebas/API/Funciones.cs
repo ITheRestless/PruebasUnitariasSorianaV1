@@ -1417,22 +1417,8 @@ namespace Prueba_de_Pruebas
 
             List<Articulo> articulos = new List<Articulo>()
             {
-                new Articulo()
-                {
-                     articulo=170,
-                     cantidad = 1,
-                     idNumVisita = 349591956,
-                     idTienda = 25,
-                     unidadMedida = 1,
-                },
-                 new Articulo()
-                {
-                     articulo=456,
-                     cantidad = 1,
-                     idNumVisita = 349591956,
-                     idTienda = 25,
-                     unidadMedida = 1,
-                },
+                new Articulo(170, 1, 349591956, 25, 1),
+                new Articulo(456, 1, 349591956, 25, 1)
             };
 
             auxRetorno.AMBIENTE = urlbase;
@@ -2115,7 +2101,7 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar AgregarALista(BearerToken token, List<Articulo2> lista)
+        public Modelo_Prueba_Ejecutar AgregarALista(BearerToken token, List<Articulo> lista)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
             string controlador = "/api/ListaCompra/AgregarArticulosALista";
@@ -2229,19 +2215,12 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar EliminarArticuloLista(BearerToken token, List<RespuestaCrearLista> RespuestaCrearList)
+        public Modelo_Prueba_Ejecutar EliminarArticuloLista(BearerToken token, int idLista)
         {
             List<Articulo> eliminarArticulos = new List<Articulo>()
             {
-                new Articulo()
-                {
-                    IdNumSKU = 1229505,
-                    idNumLstComp = RespuestaCrearList[0].IdLista
-                },
-                new Articulo()
-                {
-                    IdNumSKU = 2336087
-                }
+                new Articulo(1229505, 1),
+                new Articulo(2336087)
             };
 
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
