@@ -97,6 +97,48 @@ namespace Prueba_de_Pruebas
             funciones.RecuperarPass(clienteTester);
         }
 
+        [TestMethod]
+        public void ConfirmarCodigo()
+        {
+            funciones.ConfirmarCodigo(token, clienteTester);
+        }
+
+        [TestMethod]
+        public void ReenviarCodigo()
+        {
+            funciones.ReenviarCodigo(token, clienteTester);
+        }
+
+        [TestMethod]
+        public void VincularTarjeta()
+        {
+            funciones.VincularTarjeta(token, clienteTester);
+        }
+
+        [TestMethod]
+        public void VincularTarjetaTicket()
+        {
+            funciones.VincularTarjetaTicket(token);
+        }
+
+        [TestMethod]
+        public void CrearVirtual()
+        {
+            funciones.CrearVirtual(token);
+        }
+
+        [TestMethod]
+        public void CambioTarjeta()
+        {
+            funciones.CambioTarjeta(token);
+        }
+
+        [TestMethod]
+        public void RegisterUser2()
+        {
+            funciones.RegisterUser2(clienteTester3);
+        }
+
         #endregion
 
         #region DoSearch
@@ -117,6 +159,12 @@ namespace Prueba_de_Pruebas
         public void ProductosPorSubcategoria()
         {
             funciones.ProductosPorSubcategoria();
+        }
+
+        [TestMethod]
+        public void ArticulosPorPromocion()
+        {
+            funciones.ArticulosPorPromocion();
         }
 
         #endregion
@@ -207,6 +255,12 @@ namespace Prueba_de_Pruebas
         public void ObtenerPoblacion()
         {
             funciones.ObtenerPoblacion(token);
+        }
+
+        [TestMethod]
+        public void ValidarCP()
+        {
+            funciones.ValidarCP();
         }
 
         #endregion
@@ -306,12 +360,12 @@ namespace Prueba_de_Pruebas
         {
             funciones.GenerarURL(token, out idTransaccion);
         }
-        /*
+
         [TestMethod]
-        public void PagoRespuesta()
+        public void SaveRedirect()
         {
-            funciones.PagoRespuesta(token, idTransaccion);
-        }*/
+            funciones.SaveRedirect(token);
+        }
 
         #endregion
 
@@ -370,6 +424,12 @@ namespace Prueba_de_Pruebas
         }
 
         [TestMethod]
+        public void SendFeedback()
+        {
+            funciones.SendFeedback(clienteTester);
+        }
+
+        [TestMethod]
         public void GetHome()
         {
             funciones.GetHome2();
@@ -385,6 +445,12 @@ namespace Prueba_de_Pruebas
         public void GetEstructuraComercial()
         {
             funciones.GetEstructuraComercial();
+        }
+
+        [TestMethod]
+        public void Regiones()
+        {
+            funciones.Regiones();
         }
 
         #endregion
@@ -430,11 +496,40 @@ namespace Prueba_de_Pruebas
         #region Banners
 
         [TestMethod]
+        public void ObtenerBanners()
+        {
+            funciones.ObtenerBanners(token);
+        }
+
+        [TestMethod]
         public void ObtenerBannersInicio()
         {
             funciones.ObtenerBannersInicio(token);
         }
 
         #endregion
+
+        #region Favoritos
+
+        [TestMethod]
+        public void AgregarArticulosAFavoritos()
+        {
+            funciones.AgregarArticulosAFavoritos(token, listaArticulos);
+        }
+
+        [TestMethod]
+        public void DetalleFavoritos()
+        {
+            funciones.DetalleFavoritos(token, listaArticulos);
+        }
+
+        [TestMethod]
+        public void EliminarArticulosDeFavoritos()
+        {
+            funciones.EliminarArticulosDeFavoritos(token);
+        }
+
+        #endregion
+
     }
 }

@@ -15,7 +15,7 @@ namespace Prueba_de_Pruebas
         string urlbase = "https://appsor02.soriana.com";
 
         #region Cliente
-
+        
         public Modelo_Prueba_Ejecutar RegisterUser(Cliente cliente)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -1979,6 +1979,7 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Listas
+
         public Modelo_Prueba_Ejecutar CrearLista(BearerToken token, out List<RespuestaCrearLista> RespuestaCrearList)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2337,9 +2338,11 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Datos Fiscales
+
         public Modelo_Prueba_Ejecutar RegistrarDatosFiscales(BearerToken token, out DatosFiscales nuevosDatos)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2534,9 +2537,11 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Estracto por categoria padre
+
         public Modelo_Prueba_Ejecutar SubCategoriaProductos(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2595,9 +2600,11 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+        
         #endregion
 
         #region Estracto de promociones
+
         public Modelo_Prueba_Ejecutar EstractoPromociones(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2654,6 +2661,7 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Pago
@@ -3181,6 +3189,7 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Sin categoria
@@ -3222,6 +3231,62 @@ namespace Prueba_de_Pruebas
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se obtuvieron los folletos correctamente";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar SendFeedback(Cliente cliente)
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/Feedback/Send";
+            string endpoint = urlbase + controlador;
+
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 37;
+            auxRetorno.PRUEBA = "Feedback";
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("Content-Type", "application/json");
+                request.AddParameter("application/json", "{\"Experiencia\":\"Todo bien \",\"Descripcion\":\"Desc. feedback\",\"Tipo\":\"Bug\"}", ParameterType.RequestBody);
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                //EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se envió correctamente el mensaje de feedback";
                 }
                 else
                 {
@@ -3461,6 +3526,7 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Stores
+
         public Modelo_Prueba_Ejecutar ObtenerTiendas()
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -3655,9 +3721,11 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Promociones
+
         public Modelo_Prueba_Ejecutar ObtenerPromociones(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -3770,6 +3838,7 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
+
         #endregion
 
         #region Banners 
