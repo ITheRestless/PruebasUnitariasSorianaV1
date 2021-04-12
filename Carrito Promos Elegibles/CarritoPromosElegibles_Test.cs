@@ -80,9 +80,8 @@ namespace Carrito_Promos_Elegibles
             request.AddHeader("idTienda", "24");
 
             IRestResponse response = client.Execute(request);
-            
-            if (!response.Content.Contains("SANDIA"))
-                Assert.Fail();
+
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
 
         [TestMethod]
