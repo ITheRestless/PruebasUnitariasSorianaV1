@@ -211,7 +211,7 @@ namespace Cliente
         [TestMethod]
         public void Recuperar_Contrasena()
         {
-            Cliente1 cliente1 = RegistrarCliente(clienteTester9);
+            Cliente1 cliente = RegistrarCliente(clienteTester9);
 
             string controlador = "/api/account/RecuperarPass";
             string endpoint = urlbase + controlador;
@@ -219,7 +219,7 @@ namespace Cliente
             var client = new RestClient(endpoint);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
-            request.AddHeader("email", clienteTester3.Mail);
+            request.AddHeader("email", cliente.Mail);
             request.AddHeader("Content-Type", "application/json");
 
             IRestResponse response = client.Execute(request);
