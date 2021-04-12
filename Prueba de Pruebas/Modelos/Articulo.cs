@@ -52,6 +52,11 @@ namespace Prueba_de_Pruebas.Modelos
         {
             this.IdNumSKU = idNumSKU;
         }
+
+        public Articulo()
+        {
+
+        }
     }
 
     public partial class Articulo

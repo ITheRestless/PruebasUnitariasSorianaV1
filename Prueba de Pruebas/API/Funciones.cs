@@ -15,7 +15,7 @@ namespace Prueba_de_Pruebas
         string urlbase = "https://appsor02.soriana.com";
 
         #region Cliente
-        
+
         public Modelo_Prueba_Ejecutar RegisterUser(Cliente cliente)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -265,7 +265,7 @@ namespace Prueba_de_Pruebas
             auxPass.NewPassword = "123456prueba";
             auxPass.ConfirmPassword = "123456prueba";
 
-            string controlador = "/api/account/ChangePassword";
+            string controlador = "  ";
             string endpoint = urlbase + controlador;
 
             auxRetorno.AMBIENTE = urlbase;
@@ -499,7 +499,7 @@ namespace Prueba_de_Pruebas
                 ImprimirError(auxRetorno);
                 return auxRetorno;
             }
-        } 
+        }
 
         public Modelo_Prueba_Ejecutar ReenviarCodigo(BearerToken token, Cliente cliente)
         {
@@ -578,7 +578,7 @@ namespace Prueba_de_Pruebas
             auxRetorno.ENDPOINT = endpoint;
             auxRetorno.PRUEBA = "Vincular Tarjeta";
             auxRetorno.idPRUEBA = 67;
-            
+
             try
             {
                 var client = new RestClient(endpoint);
@@ -623,7 +623,7 @@ namespace Prueba_de_Pruebas
                 ImprimirError(auxRetorno);
                 return auxRetorno;
             }
-        } 
+        }
 
         public Modelo_Prueba_Ejecutar VincularTarjetaTicket(BearerToken token)
         {
@@ -732,6 +732,12 @@ namespace Prueba_de_Pruebas
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se creó la tarjeta virtual correctamente";
+                }
+                else if (response.Content.Contains("ERROR ALTA DE CLIENTE"))
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se ejecutó la prueba correctamente, sin embargo el email o la clave son incorrectas. (Excepción controlada)";
                 }
                 else
                 {
@@ -1077,7 +1083,7 @@ namespace Prueba_de_Pruebas
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", "{\r\n    \"sentencia\":\"\",\r\n    \"page\":\"1\",\r\n    \"idTienda\":\"14\",\r\n    \"brandId\":\"\",\r\n    \"categoryId\":\"\",\r\n    \"orderType\":\"0\",\r\n    \"promotionId\":\"\",\r\n  \"tag\":\"11386730\"\r\n}", ParameterType.RequestBody);
+                request.AddParameter("application/json", "{\r\n    \"sentencia\":\"\",\r\n    \"page\":\"1\",\r\n    \"idTienda\":\"24\",\r\n    \"brandId\":\"\",\r\n    \"categoryId\":\"\",\r\n    \"orderType\":\"0\",\r\n    \"promotionId\":\"\",\r\n  \"tag\":\"320480\"\r\n}", ParameterType.RequestBody);
 
                 DateTime fechaInicio = DateTime.Now;
                 auxRetorno.FECHAINICIO = fechaInicio;
@@ -1091,7 +1097,7 @@ namespace Prueba_de_Pruebas
                 auxRetorno.FECHAFIN = fechaFinal;
                 auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
 
-                if (response.Content.Contains("HARINA"))
+                if ((response.StatusCode == System.Net.HttpStatusCode.OK) && (response.Content.Contains("ItemId")))
                 {
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
@@ -1417,8 +1423,22 @@ namespace Prueba_de_Pruebas
 
             List<Articulo> articulos = new List<Articulo>()
             {
-                new Articulo(170, 1, 349591956, 25, 1),
-                new Articulo(456, 1, 349591956, 25, 1)
+                new Articulo()
+                {
+                     articulo=170,
+                     cantidad = 1,
+                     idNumVisita = 349591956,
+                     idTienda = 25,
+                     unidadMedida = 1,
+                },
+                 new Articulo()
+                {
+                     articulo=456,
+                     cantidad = 1,
+                     idNumVisita = 349591956,
+                     idTienda = 25,
+                     unidadMedida = 1,
+                },
             };
 
             auxRetorno.AMBIENTE = urlbase;
@@ -1921,7 +1941,7 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar ValidarCP ()
+        public Modelo_Prueba_Ejecutar ValidarCP()
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
             string controlador = "/api/direccion/validarCP";
@@ -2553,6 +2573,7 @@ namespace Prueba_de_Pruebas
             auxRetorno.ENDPOINT = endpoint;
             auxRetorno.idPRUEBA = 54;
             auxRetorno.PRUEBA = "Subcategoría con productos";
+
             try
             {
                 var client = new RestClient(endpoint);
@@ -2600,7 +2621,7 @@ namespace Prueba_de_Pruebas
                 return auxRetorno;
             }
         }
-        
+
         #endregion
 
         #region Estracto de promociones
@@ -2621,7 +2642,7 @@ namespace Prueba_de_Pruebas
                 var client = new RestClient(endpoint);
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
-                request.AddHeader("idTienda", "47");
+                request.AddHeader("idTienda", "24");
                 request.AddHeader("Page", "1");
 
                 DateTime fechaInicio = DateTime.Now;
@@ -2665,67 +2686,6 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Pago
-
-        public Modelo_Prueba_Ejecutar GenerarURL(BearerToken token, out long id)
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/Pago/GenerarURL";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 14;
-            auxRetorno.PRUEBA = "Generar URL";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", "{\"Id_Num_Aplicacion\": 23, \"Id_Num_Orden\" :\"100849616\", \"importe\": \"112.32\", \"Csc_MetodoPago\" : \"0\"}", ParameterType.RequestBody);
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "El URL de pago se generó correctamente";
-                    id = RespuestaPago.FromJson(response.Content).Id_Num_Transaccion;
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    id = 0;
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                id = -1;
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
 
         public Modelo_Prueba_Ejecutar SaveRedirect(BearerToken token)
         {
@@ -2788,7 +2748,7 @@ namespace Prueba_de_Pruebas
         #endregion
 
         #region Orden
-        
+
         public Modelo_Prueba_Ejecutar InfoOrden(BearerToken token)
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
@@ -2883,11 +2843,11 @@ namespace Prueba_de_Pruebas
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se retornaron correctamente las ordenes en proceso";
                 }
-                else if(response.Content.Contains("No tienes pedidos."))
+                else if (response.Content.Contains("No tienes pedidos."))
                 {
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "Se ejecutó correctamente, sin embargo no cuentas con pedidos";
+                    auxRetorno.RESPUESTA = "Se ejecutó correctamente, sin embargo no cuentas con pedidos. (Excepción controlada)";
                 }
                 else
                 {
@@ -2927,7 +2887,7 @@ namespace Prueba_de_Pruebas
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("bearertoken", token.AccessToken);
                 request.AddHeader("numOrden", "100863606");
-                request.AddHeader("idTiendas", "47");
+                request.AddHeader("idTiendas", "24");
                 request.AddHeader("Page", "1");
                 request.AddHeader("Content-Type", "application/json");
 
@@ -2983,7 +2943,7 @@ namespace Prueba_de_Pruebas
                 client.Timeout = -1;
                 var request = new RestRequest(Method.POST);
                 request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("idTienda", "4");
+                request.AddHeader("idTienda", "24");
                 request.AddHeader("Content-Type", "application/json");
 
                 DateTime fechaInicio = DateTime.Now;
@@ -3251,72 +3211,16 @@ namespace Prueba_de_Pruebas
             }
         }
 
-        public Modelo_Prueba_Ejecutar SendFeedback(Cliente cliente)
+        public Modelo_Prueba_Ejecutar GetHome5()
         {
             Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/Feedback/Send";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 37;
-            auxRetorno.PRUEBA = "Feedback";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("Content-Type", "application/json");
-                request.AddParameter("application/json", "{\"Experiencia\":\"Todo bien \",\"Descripcion\":\"Desc. feedback\",\"Tipo\":\"Bug\"}", ParameterType.RequestBody);
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                //EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = "Se envió correctamente el mensaje de feedback";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
-
-        public Modelo_Prueba_Ejecutar GetHome2()
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/homeSuper/getHome2";
+            string controlador = "/api/homeSuper/getHome5";
             string endpoint = urlbase + controlador;
             auxRetorno.AMBIENTE = urlbase;
             auxRetorno.BATCH = 0;
             auxRetorno.ENDPOINT = endpoint;
             auxRetorno.idPRUEBA = 38;
-            auxRetorno.PRUEBA = "Home 2 con promociones";
+            auxRetorno.PRUEBA = "Home 5 con promociones";
 
             try
             {
@@ -3342,6 +3246,183 @@ namespace Prueba_de_Pruebas
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se recibió correctamente la vista de Home";
+                }
+                else if (response.Content.Contains("No hay categorías para cargar"))
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se realizó la prueba correctamente, sin embargo no hay categorías en home";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar GetHome6()
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/homeSuper/getHome6";
+            string endpoint = urlbase + controlador;
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 10076;
+            auxRetorno.PRUEBA = "Home 6 con promociones";
+
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("idTienda", "24");
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+                Stopwatch sw = Stopwatch.StartNew();
+
+                //EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se recibió correctamente la vista de Home";
+                }
+                else if (response.Content.Contains("No hay categorías para cargar"))
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se realizó la prueba correctamente, sin embargo no hay categorías en home";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar promociones()
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/homeSuper/promociones";
+            string endpoint = urlbase + controlador;
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 10077;
+            auxRetorno.PRUEBA = "Promociones";
+
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("idTienda", "24");
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+                Stopwatch sw = Stopwatch.StartNew();
+
+                //EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se recibieron correctamente las promociones";
+                }
+                else
+                {
+                    auxRetorno.ESTADO = false;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.EXCEPCION = response.Content.ToString();
+                    ImprimirError(auxRetorno);
+                }
+                return auxRetorno;
+            }
+            catch (Exception ex)
+            {
+                auxRetorno.ESTADO = false;
+                auxRetorno.STATUSCODE = -1;
+                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
+                ImprimirError(auxRetorno);
+                return auxRetorno;
+            }
+        }
+
+        public Modelo_Prueba_Ejecutar promociones2()
+        {
+            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
+            string controlador = "/api/homeSuper/promociones2";
+            string endpoint = urlbase + controlador;
+            auxRetorno.AMBIENTE = urlbase;
+            auxRetorno.BATCH = 0;
+            auxRetorno.ENDPOINT = endpoint;
+            auxRetorno.idPRUEBA = 10078;
+            auxRetorno.PRUEBA = "Promociones 2";
+
+            try
+            {
+                var client = new RestClient(endpoint);
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                request.AddHeader("idTienda", "24");
+
+                DateTime fechaInicio = DateTime.Now;
+                auxRetorno.FECHAINICIO = fechaInicio;
+                Stopwatch sw = Stopwatch.StartNew();
+
+                //EJECUTA
+                IRestResponse response = client.Execute(request);
+
+                sw.Stop();
+                DateTime fechaFinal = DateTime.Now;
+                auxRetorno.FECHAFIN = fechaFinal;
+                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    auxRetorno.ESTADO = true;
+                    auxRetorno.STATUSCODE = (int)response.StatusCode;
+                    auxRetorno.RESPUESTA = "Se recibieron correctamente las promociones";
                 }
                 else
                 {
@@ -3537,6 +3618,7 @@ namespace Prueba_de_Pruebas
             auxRetorno.ENDPOINT = endpoint;
             auxRetorno.idPRUEBA = 41;
             auxRetorno.PRUEBA = "Obtener tiendas";
+
             try
             {
                 var client = new RestClient(endpoint);
@@ -3548,7 +3630,6 @@ namespace Prueba_de_Pruebas
 
                 Stopwatch sw = Stopwatch.StartNew();
 
-                //EJECUTA
                 IRestResponse response = client.Execute(request);
 
                 sw.Stop();
@@ -3644,29 +3725,29 @@ namespace Prueba_de_Pruebas
             string endpoint = urlbase + controlador;
 
             List<PoblacionTienda> poblacionTiendaList = new List<PoblacionTienda>();
-                poblacionTiendaList.Add(new PoblacionTienda()
-                {
-                    Id = 1,
-                    Name = "SANTO DOMINGO",
-                    LogoPath = "",
-                    Latitude = 25.7502,
-                    Longitude = -100.2569,
-                    Image = null,
-                    Radio = 5000,
-                    IdNumLogo = 1,
-                    TipoTienda = 1,
-                    BitServ = false,
-                    BitReco = false,
-                    Telefono = "8183299099",
-                    Direccion = "AV. S. DOMINGO Y AV. DIAZ DE BERLANGA NO. 1800  SANTO DOMINGO",
-                    Region = 2,
-                    IdsNumPoblacion = 973,
-                    IdNumPais = 1,
-                    IdNumEstado = 19,
-                    IdNumPoblacion = 46,
-                    NomEstado = "NUEVO LEON",
-                    NomPoblacion = "SAN NICOLAS DE LOS GARZA"
-                });
+            poblacionTiendaList.Add(new PoblacionTienda()
+            {
+                Id = 1,
+                Name = "SANTO DOMINGO",
+                LogoPath = "",
+                Latitude = 25.7502,
+                Longitude = -100.2569,
+                Image = null,
+                Radio = 5000,
+                IdNumLogo = 1,
+                TipoTienda = 1,
+                BitServ = false,
+                BitReco = false,
+                Telefono = "8183299099",
+                Direccion = "AV. S. DOMINGO Y AV. DIAZ DE BERLANGA NO. 1800  SANTO DOMINGO",
+                Region = 2,
+                IdsNumPoblacion = 973,
+                IdNumPais = 1,
+                IdNumEstado = 19,
+                IdNumPoblacion = 46,
+                NomEstado = "NUEVO LEON",
+                NomPoblacion = "SAN NICOLAS DE LOS GARZA"
+            });
 
             auxRetorno.AMBIENTE = urlbase;
             auxRetorno.BATCH = 0;
@@ -3762,63 +3843,6 @@ namespace Prueba_de_Pruebas
                     auxRetorno.ESTADO = true;
                     auxRetorno.STATUSCODE = (int)response.StatusCode;
                     auxRetorno.RESPUESTA = "Se obtuvieron las promociones correctamente";
-                }
-                else
-                {
-                    auxRetorno.ESTADO = false;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.EXCEPCION = response.Content.ToString();
-                    ImprimirError(auxRetorno);
-                }
-                return auxRetorno;
-            }
-            catch (Exception ex)
-            {
-                auxRetorno.ESTADO = false;
-                auxRetorno.STATUSCODE = -1;
-                auxRetorno.EXCEPCION = "Ocurrió un error en interno en la prueba automática (" + auxRetorno.PRUEBA + "): " + ex;
-                ImprimirError(auxRetorno);
-                return auxRetorno;
-            }
-        }
-
-        public Modelo_Prueba_Ejecutar ActivarPromocion(BearerToken token)
-        {
-            Modelo_Prueba_Ejecutar auxRetorno = new Modelo_Prueba_Ejecutar();
-            string controlador = "/api/Promociones/Activar";
-            string endpoint = urlbase + controlador;
-
-            auxRetorno.AMBIENTE = urlbase;
-            auxRetorno.BATCH = 0;
-            auxRetorno.ENDPOINT = endpoint;
-            auxRetorno.idPRUEBA = 26;
-            auxRetorno.PRUEBA = "Activar promoción";
-            try
-            {
-                var client = new RestClient(endpoint);
-                client.Timeout = -1;
-                var request = new RestRequest(Method.POST);
-                request.AddHeader("bearertoken", token.AccessToken);
-                request.AddHeader("idPromo", "11346661");
-
-                DateTime fechaInicio = DateTime.Now;
-                auxRetorno.FECHAINICIO = fechaInicio;
-
-                Stopwatch sw = Stopwatch.StartNew();
-
-                // EJECUTA
-                IRestResponse response = client.Execute(request);
-
-                sw.Stop();
-                DateTime fechaFinal = DateTime.Now;
-                auxRetorno.FECHAFIN = fechaFinal;
-                auxRetorno.TIEMPORES = Convert.ToInt32(sw.ElapsedMilliseconds);
-
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    auxRetorno.ESTADO = true;
-                    auxRetorno.STATUSCODE = (int)response.StatusCode;
-                    auxRetorno.RESPUESTA = response.Content.ToString();
                 }
                 else
                 {

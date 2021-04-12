@@ -356,12 +356,6 @@ namespace Prueba_de_Pruebas
         long idTransaccion = 0;
 
         [TestMethod]
-        public void GenerarURL()
-        {
-            funciones.GenerarURL(token, out idTransaccion);
-        }
-
-        [TestMethod]
         public void SaveRedirect()
         {
             funciones.SaveRedirect(token);
@@ -424,15 +418,14 @@ namespace Prueba_de_Pruebas
         }
 
         [TestMethod]
-        public void SendFeedback()
+        public void GetHome5()
         {
-            funciones.SendFeedback(clienteTester);
+            funciones.GetHome5();
         }
 
-        [TestMethod]
-        public void GetHome()
+        public void GetHome6()
         {
-            funciones.GetHome2();
+            funciones.GetHome6();
         }
 
         [TestMethod]
