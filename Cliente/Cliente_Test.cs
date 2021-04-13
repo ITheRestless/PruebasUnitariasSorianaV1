@@ -82,8 +82,9 @@ namespace Cliente
             request.AddParameter("application/json", clienteTester2.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -100,8 +101,9 @@ namespace Cliente
             request.AddParameter("application/json", clienteTester.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-            
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -128,9 +130,9 @@ namespace Cliente
             request.AddParameter("application/json", clienteNuevo.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-            
+
             if (!response.Content.Contains("Márquez"))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -149,7 +151,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -177,7 +180,7 @@ namespace Cliente
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("00"))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -200,11 +203,11 @@ namespace Cliente
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 if (response.Content.Contains("false"))
-                    Assert.Fail(response.Content);
+                    throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
             }
             else
             {
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
             }
         }
 
@@ -224,7 +227,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -244,7 +248,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
         
         [TestMethod]
@@ -266,7 +271,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -292,7 +298,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -317,7 +324,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " +response.ErrorMessage);
         }
 
         [TestMethod]
@@ -342,7 +350,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -366,7 +375,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -383,7 +393,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
 

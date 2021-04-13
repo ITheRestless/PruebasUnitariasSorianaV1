@@ -31,7 +31,8 @@ namespace Stores
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -50,7 +51,8 @@ namespace Stores
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -95,7 +97,8 @@ namespace Stores
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
 

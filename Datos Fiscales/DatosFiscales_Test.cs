@@ -45,7 +45,7 @@ namespace Datos_Fiscales
             
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
             if (!response.Content.Contains("DEVELOP"))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -75,8 +75,9 @@ namespace Datos_Fiscales
             request.AddParameter("application/json", datosFiscalesModificados.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-            
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -96,7 +97,8 @@ namespace Datos_Fiscales
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         // MÉTODO PARA OBTENER EL TOKEN

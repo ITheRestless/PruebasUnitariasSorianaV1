@@ -43,7 +43,7 @@ namespace Listas
             listaCrearLista = RespuestaCrearLista.FromJson(response.Content);
 
             if (!response.Content.Contains(token.AccessToken.Substring(0, 5)))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace Listas
             IRestResponse response = client.Execute(request);
             
             if (!response.Content.Contains(token.AccessToken.Substring(0, 5)))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -103,8 +103,9 @@ namespace Listas
             request.AddParameter("application/json", listaArticulos.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-            
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -129,7 +130,7 @@ namespace Listas
             
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
             if (!response.Content.Contains(RespuestaCrearList[0].IdLista.ToString()))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -163,7 +164,8 @@ namespace Listas
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         [TestMethod]
@@ -184,7 +186,8 @@ namespace Listas
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
         // MÉTODO PARA OBTENER EL TOKEN

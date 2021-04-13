@@ -33,7 +33,7 @@ namespace Estracto_Promociones
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("Categorias"))
-                Assert.Fail(response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
         }
 
 
