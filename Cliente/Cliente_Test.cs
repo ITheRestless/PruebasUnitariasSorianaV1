@@ -83,7 +83,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.Content);
         }
 
         [TestMethod]
@@ -247,7 +247,27 @@ namespace Cliente
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
 
-        
+        [TestMethod]
+        public void Reenviar_Codigo()
+        {
+            Cliente1 cliente = RegistrarCliente(clienteTester12);
+            token = ObtenerToken(clienteTester13);
+
+            string controlador = "/api/account/ReenviarCodigo";
+            string endpoint = urlbase + controlador;
+
+            var client = new RestClient(endpoint);
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("bearertoken", token.AccessToken);
+            request.AddHeader("email", cliente.Mail);
+            request.AddHeader("nombre", cliente.Nombre);
+            request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
+
+            IRestResponse response = client.Execute(request);
+
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+        }
 
         [TestMethod]
         public void Vincular_Tarjeta()
