@@ -39,7 +39,7 @@ namespace Carrito_Promos_Elegibles
 
             if (visita == 0)
             {
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("GELATINA"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.Content.Contains("GELATINA") && response.Content.Contains("idCarrito"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("idCarrito"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -166,7 +166,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -194,7 +194,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -224,7 +224,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
 

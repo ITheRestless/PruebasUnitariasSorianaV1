@@ -93,3 +93,4 @@ C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Banners\obj
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Banners\obj\Debug\netcoreapp3.1\Banners.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Banners\obj\Debug\netcoreapp3.1\Banners.pdb
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Banners\obj\Debug\netcoreapp3.1\Banners.genruntimeconfig.cache
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Banners\obj\Debug\netcoreapp3.1\Banners.csprojAssemblyReference.cache

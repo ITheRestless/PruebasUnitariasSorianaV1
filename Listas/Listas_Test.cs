@@ -43,7 +43,7 @@ namespace Listas
             listaCrearLista = RespuestaCrearLista.FromJson(response.Content);
 
             if (!response.Content.Contains(token.AccessToken.Substring(0, 5)))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace Listas
             IRestResponse response = client.Execute(request);
             
             if (!response.Content.Contains(token.AccessToken.Substring(0, 5)))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace Listas
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Listas
             
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
             if (!response.Content.Contains(RespuestaCrearList[0].IdLista.ToString()))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -165,7 +165,7 @@ namespace Listas
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -187,7 +187,7 @@ namespace Listas
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         // MÉTODO PARA OBTENER EL TOKEN

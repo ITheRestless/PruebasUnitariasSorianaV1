@@ -26,7 +26,7 @@ namespace DoSearch
             Assert.AreEqual(response.StatusCode, System.Net.HttpStatusCode.OK);
 
             if (!response.Content.Contains("AGUACATE"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@ namespace DoSearch
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("COCA"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace DoSearch
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("ItemId"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]

@@ -93,3 +93,4 @@ C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Promociones
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Promociones\obj\Debug\netcoreapp3.1\Promociones.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Promociones\obj\Debug\netcoreapp3.1\Promociones.pdb
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Promociones\obj\Debug\netcoreapp3.1\Promociones.genruntimeconfig.cache
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Promociones\obj\Debug\netcoreapp3.1\Promociones.csprojAssemblyReference.cache

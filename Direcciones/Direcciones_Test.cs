@@ -54,7 +54,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("oficina prueba"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
             
             if (!response.Content.Contains("editada"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("oficina"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -126,7 +126,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
 

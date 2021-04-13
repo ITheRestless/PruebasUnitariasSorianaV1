@@ -34,7 +34,7 @@ namespace Estracto_Por_Categoria_Padre
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("Categorias"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
         }
 
         // MÉTODO PARA OBTENER EL TOKEN

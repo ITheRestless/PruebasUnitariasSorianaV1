@@ -93,3 +93,4 @@ C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Sin Categor
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Sin Categoria\obj\Debug\netcoreapp3.1\Sin Categoria.dll
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Sin Categoria\obj\Debug\netcoreapp3.1\Sin Categoria.pdb
 C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Sin Categoria\obj\Debug\netcoreapp3.1\Sin Categoria.genruntimeconfig.cache
+C:\Users\develop-user-10\Documents\GitHub\PruebasUnitariasKoburaYMau\Sin Categoria\obj\Debug\netcoreapp3.1\Sin Categoria.csprojAssemblyReference.cache
