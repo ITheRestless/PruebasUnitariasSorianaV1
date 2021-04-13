@@ -246,8 +246,8 @@ namespace Cliente
 
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
         }
-
-        [TestMethod]
+        
+        /*[TestMethod]
         public void Reenviar_Codigo()
         {
             Cliente1 cliente = RegistrarCliente(clienteTester12);
@@ -267,7 +267,7 @@ namespace Cliente
             IRestResponse response = client.Execute(request);
 
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
-        }
+        }*/
 
         [TestMethod]
         public void Vincular_Tarjeta()
