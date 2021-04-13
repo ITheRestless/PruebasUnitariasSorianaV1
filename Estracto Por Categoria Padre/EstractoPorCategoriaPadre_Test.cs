@@ -34,7 +34,7 @@ namespace Estracto_Por_Categoria_Padre
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("Categorias"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         // MÉTODO PARA OBTENER EL TOKEN

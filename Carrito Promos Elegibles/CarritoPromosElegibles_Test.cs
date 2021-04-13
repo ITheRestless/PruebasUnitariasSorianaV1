@@ -39,7 +39,7 @@ namespace Carrito_Promos_Elegibles
 
             if (visita == 0)
             {
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("GELATINA"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace Carrito_Promos_Elegibles
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -102,7 +102,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.Content.Contains("GELATINA") && response.Content.Contains("idCarrito"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -124,7 +124,7 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("idCarrito"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -164,7 +164,7 @@ namespace Carrito_Promos_Elegibles
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -191,7 +191,7 @@ namespace Carrito_Promos_Elegibles
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -220,7 +220,7 @@ namespace Carrito_Promos_Elegibles
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
 

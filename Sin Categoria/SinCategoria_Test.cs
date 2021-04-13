@@ -24,7 +24,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod] 
@@ -56,7 +56,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -135,7 +135,7 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
     }

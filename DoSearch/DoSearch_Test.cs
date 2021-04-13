@@ -27,7 +27,7 @@ namespace DoSearch
 
             if (!response.Content.Contains("AGUACATE"))
             {
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
             }
         }
 
@@ -46,7 +46,7 @@ namespace DoSearch
 
             if (!response.Content.Contains("COCA"))
             {
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
             }
         }
 
@@ -65,7 +65,7 @@ namespace DoSearch
 
             if (!response.Content.Contains("ItemId"))
             {
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
             }
         }
 
@@ -86,7 +86,7 @@ namespace DoSearch
 
             if (!response.Content.Contains("ItemId"))
             {
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
             }
         }
     }

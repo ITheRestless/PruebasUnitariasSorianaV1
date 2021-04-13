@@ -45,7 +45,7 @@ namespace Datos_Fiscales
             
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
             if (!response.Content.Contains("DEVELOP"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace Datos_Fiscales
 
             IRestResponse response = client.Execute(request);
             
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace Datos_Fiscales
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         // MÉTODO PARA OBTENER EL TOKEN

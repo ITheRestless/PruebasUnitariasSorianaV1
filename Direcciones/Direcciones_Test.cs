@@ -54,7 +54,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("oficina prueba"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
             
             if (!response.Content.Contains("editada"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -105,7 +105,7 @@ namespace Direcciones
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("oficina"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -125,7 +125,7 @@ namespace Direcciones
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace Direcciones
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace Direcciones
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
 

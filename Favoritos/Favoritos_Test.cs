@@ -53,7 +53,7 @@ namespace Favoritos
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace Favoritos
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace Favoritos
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
 

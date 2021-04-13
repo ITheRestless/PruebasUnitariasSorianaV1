@@ -52,8 +52,8 @@ namespace Cliente
         static ClienteAlterno clienteTester11 = new ClienteAlterno("Iván A" + NombreTester, "ivan5tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
 
         // Cliente para la prueba Reenviar_Codigo
-        static Cliente1 clienteTester12 = new Cliente1("Iván A" + NombreTester, "ivan6tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        static ClienteAlterno clienteTester13 = new ClienteAlterno("Iván A" + NombreTester, "ivan6tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        static Cliente1 clienteTester12 = new Cliente1("Ivan A" + NombreTester, "ivan6tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        static ClienteAlterno clienteTester13 = new ClienteAlterno("Ivan A" + NombreTester, "ivan6tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
 
         // Cliente para la prueba Vincular_Tarjeta
         static Cliente1 clienteTester14 = new Cliente1("Iván A" + NombreTester, "ivan7tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
@@ -83,7 +83,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.Content);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -101,7 +101,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
             
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace Cliente
             IRestResponse response = client.Execute(request);
             
             if (!response.Content.Contains("Márquez"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -177,7 +177,7 @@ namespace Cliente
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("00"))
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
         }
 
         [TestMethod]
@@ -200,11 +200,11 @@ namespace Cliente
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 if (response.Content.Contains("false"))
-                    Assert.Fail();
+                    Assert.Fail(response.Content);
             }
             else
             {
-                Assert.Fail();
+                Assert.Fail(response.ErrorMessage);
             }
         }
 
@@ -224,7 +224,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -244,10 +244,10 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
         
-        /*[TestMethod]
+        [TestMethod]
         public void Reenviar_Codigo()
         {
             Cliente1 cliente = RegistrarCliente(clienteTester12);
@@ -266,8 +266,8 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
-        }*/
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
+        }
 
         [TestMethod]
         public void Vincular_Tarjeta()
@@ -292,7 +292,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -317,7 +317,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -342,7 +342,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -366,7 +366,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
         [TestMethod]
@@ -383,7 +383,7 @@ namespace Cliente
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
+            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode, response.ErrorMessage);
         }
 
 
