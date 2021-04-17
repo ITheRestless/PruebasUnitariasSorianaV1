@@ -30,7 +30,7 @@ namespace Cliente
          */
 
         // Cliente para la prueba de Registrar_Usuario
-        static Cliente1 clienteTester2 = new Cliente1("Iván Test " + NombreTester, "tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");        
+        static Cliente1 clienteTester2 = new Cliente1("Iván A " + NombreTester, "testerdevelop" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");        
         
         // Cliente para la prueba Confirmar_Codigo
         static Cliente1 clienteTester3 = new Cliente1("Iván A" + NombreTester, "ivan1tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
@@ -84,7 +84,7 @@ namespace Cliente
             IRestResponse response = client.Execute(request);
             
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content + "Usuario: " + clienteTester2.Mail);
         }
 
         [TestMethod]
