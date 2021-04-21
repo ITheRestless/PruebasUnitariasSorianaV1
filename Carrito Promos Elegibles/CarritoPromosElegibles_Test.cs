@@ -11,19 +11,19 @@ namespace Carrito_Promos_Elegibles
     {
         static string urlbase = "https://appsor02.soriana.com";
 
-        BearerToken token = new BearerToken();
         static String NombreTester = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
-        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "testercarrito" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "testercarrito" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+
+        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "tester1carrito" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        static ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "tester1carrito" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        
         int visita = 0;
 
-        Cliente cliente = RegistrarCliente(clienteTester);
+        static Cliente cliente = RegistrarCliente(clienteTester);
+        static BearerToken token = ObtenerToken(clienteTester2);
 
         [TestMethod]
         public void Crear_Visita()
         {
-            token = ObtenerToken();
-
             string controlador = "/api/Carrito/visita";
             string endpoint = urlbase + controlador;
 
@@ -39,14 +39,13 @@ namespace Carrito_Promos_Elegibles
 
             if (visita == 0)
             {
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
             }
         }
 
         [TestMethod]
         public void Agregar_Articulo_A_Carrito()
         {
-            token = ObtenerToken();
             visita = ObtenerVisita();
 
             string controlador = "/api/carrito/agregarArticulo5";
@@ -62,14 +61,12 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (!response.Content.Contains("GELATINA"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
         public void Obtener_Detalle_Carrito()
         {
-            token = ObtenerToken();
-
             string controlador = "/api/Carrito/detalleCarrito5";
             string endpoint = urlbase + controlador;
 
@@ -82,14 +79,12 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
         public void Eliminar_Articulo_Carrito()
         {
-            token = ObtenerToken();
-
             string controlador = "/api/carrito/borrarArticulo5";
             string endpoint = urlbase + controlador;
 
@@ -103,13 +98,12 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.Content.Contains("GELATINA") && response.Content.Contains("idCarrito"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
         public void Cambiar_Tienda()
         {
-            token = ObtenerToken();
             visita = ObtenerVisita();
 
             string controlador = "/api/carrito/CambioTienda5";
@@ -123,16 +117,14 @@ namespace Carrito_Promos_Elegibles
             request.AddParameter("application/json", "{\n                \"NumeroAplicacion\" : \"23\",\n                \"NumeroTiendaNueva\":\"14\",\n                \"NumeroCarritoActual\": \"0\",\n                \"NumeroVisita\" : \"340990345\"\n}".Replace("340990345", visita.ToString()), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-
-            if (!response.Content.Contains("idCarrito"))
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+            
+            if (response.StatusCode != System.Net.HttpStatusCode.OK || !response.Content.Contains("idCarrito"))
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
         public void Agregar_Arreglo_Carrito()
         {
-            token = ObtenerToken();
-
             string controlador = "/api/carrito/agregarNarticulosCarrito5";
             string endpoint = urlbase + controlador;
 
@@ -164,16 +156,14 @@ namespace Carrito_Promos_Elegibles
             request.AddParameter("application/json", articulos.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-
+            
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
         public void Comentario_Articulo()
         {
-            token = ObtenerToken();
-
             ComentarioArticulo comentarioArticulo = new ComentarioArticulo()
             {
                 IdArticulo = 8003490,
@@ -194,14 +184,12 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
         [TestMethod]
         public void Canje_Puntos()
         {
-            token = ObtenerToken();
-
             CanjePuntos canjePuntos = new CanjePuntos()
             {
                 IdNumSku = 1024595,
@@ -224,12 +212,12 @@ namespace Carrito_Promos_Elegibles
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Error: " + response.ErrorMessage + " | Contenido respuesta: " + response.Content);
+                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
 
         // MÉTODO PARA OBTENER EL TOKEN
-        public BearerToken ObtenerToken()
+        public static BearerToken ObtenerToken(ClienteAlterno cliente)
         {
             string controlador = "/api/token/GetToken";
             string endpoint = urlbase + controlador;
@@ -239,18 +227,16 @@ namespace Carrito_Promos_Elegibles
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Cookie", "ak_bmsc=1B2DBCB5D80264AA0698B7F0AC518ABCBDF7CF37470800008F7F6B5FEC0F897A~pl/oJgJTrrHhbQTqb4FK0MGGUg6rCfUibWDDgML6mVfnc4voiQnt0bN75qp83XTuKTyEYCh1U6ILMXH71QaJF37B601rg6tJevK8K916oHEpaRqXtKR5ZSwK3VdkH4iyYUQkBJ1zWg+EdCpLPKeFsgVRlVEVKw7YAvgO9i9qbQm9Vx3zIpWWf6xCDcBOa4a6tMYWPEhvRoZ8WlS3llWtt/JuSf67BcnsZk1QiCnyxOEuE=");
-            request.AddParameter("application/json", clienteTester2.ToJson(), ParameterType.RequestBody);
+            request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
 
-            return token = BearerToken.FromJson(response.Content);
+            return BearerToken.FromJson(response.Content);
         }
 
         // MÉTODO PARA OBTENER LA VISITA DEL CLIENTE
         public int ObtenerVisita()
         {
-            token = ObtenerToken();
-
             string controlador = "/api/Carrito/visita";
             string endpoint = urlbase + controlador;
 
@@ -261,9 +247,9 @@ namespace Carrito_Promos_Elegibles
             request.AddParameter("text/plain", "", ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-
+            
             visita = Convert.ToInt32(response.Content);
-
+            
             return visita;
         }
 
