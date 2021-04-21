@@ -13,8 +13,8 @@ namespace Carrito_Promos_Elegibles
 
         BearerToken token = new BearerToken();
         static String NombreTester = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
-        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "testercarrito" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "testercarrito" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
         int visita = 0;
 
         Cliente cliente = RegistrarCliente(clienteTester);

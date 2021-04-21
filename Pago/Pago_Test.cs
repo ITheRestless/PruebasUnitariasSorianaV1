@@ -13,8 +13,8 @@ namespace Pago
         static BearerToken token = new BearerToken();
 
         static String NombreTester = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
-        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        static ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "testerpago" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        static ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "testerpago" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
 
         Cliente cliente = RegistrarCliente(clienteTester);
 
