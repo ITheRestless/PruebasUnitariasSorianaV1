@@ -81,6 +81,9 @@ namespace Sin_Categoria
 
             IRestResponse response = client.Execute(request);
 
+            if (response.Content.Contains("No hay categorías para cargar"))
+                response.StatusCode = System.Net.HttpStatusCode.OK;
+
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
@@ -97,6 +100,9 @@ namespace Sin_Categoria
             request.AddHeader("idTienda", "24");
 
             IRestResponse response = client.Execute(request);
+
+            if (response.Content.Contains("No hay categorías para cargar"))
+                response.StatusCode = System.Net.HttpStatusCode.OK;
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);

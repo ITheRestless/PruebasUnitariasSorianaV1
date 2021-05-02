@@ -1,3 +1,4 @@
+using DoSearch.Modelos;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RestSharp;
 using System;
@@ -66,20 +67,42 @@ namespace DoSearch
         [TestMethod]
         public void ArticulosPorPromocion()
         {
+            Promociones promociones = get_Estracto_Promociones();
+            long tag = promociones.Categorias[0].Articulos[0].Promotions[0];
+
             string controlador = "/api/dosearch/articulosPorPromocion";
             string endpoint = urlbase + controlador;
             var client = new RestClient(endpoint);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", "{\r\n    \"sentencia\":\"\",\r\n    \"page\":\"1\",\r\n    \"idTienda\":\"24\",\r\n    \"brandId\":\"\",\r\n    \"categoryId\":\"\",\r\n    \"orderType\":\"0\",\r\n    \"promotionId\":\"\",\r\n  \"tag\":\"320480\"\r\n}", ParameterType.RequestBody);
+            request.AddParameter("application/json", "{\r\n    \"sentencia\":\"\",\r\n    \"page\":\"1\",\r\n    \"idTienda\":\"24\",\r\n    \"brandId\":\"\",\r\n    \"categoryId\":\"\",\r\n    \"orderType\":\"0\",\r\n    \"promotionId\":\"\",\r\n  \"tag\":\"320480\"\r\n}".Replace("320480", tag.ToString().ToString()), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
-
+            
             Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
 
             if (!response.Content.Contains("ItemId"))
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
+        }
+
+
+        // MÉTODO PARA OBTENER UNA PROMOCIÓN ACTIVA
+        public Promociones get_Estracto_Promociones()
+        {
+            string controlador = "/api/categoria/GetEstractoPromocionesPage";
+            string endpoint = urlbase + controlador;
+
+            var client = new RestClient(endpoint);
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("idTienda", "24");
+            request.AddHeader("Page", "1");
+
+            IRestResponse response = client.Execute(request);
+
+            Promociones promociones = Promociones.FromJson(response.Content);
+            return promociones;
         }
     }
 }
