@@ -28,50 +28,10 @@ namespace Sin_Categoria
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
-        [TestMethod]
-        public void Obtener_Home_5()
-        {
-            string controlador = "/api/homeSuper/getHome5";
-            string endpoint = urlbase + controlador;
-
-            var client = new RestClient(endpoint);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("idTienda", "24");
-
-            IRestResponse response = client.Execute(request);
-
-            if (response.Content.Contains("No hay categorías para cargar"))
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
-        }
-
         [TestMethod] 
         public void Obtener_Home_6()
         {
             string controlador = "/api/homeSuper/getHome6";
-            string endpoint = urlbase + controlador;
-
-            var client = new RestClient(endpoint);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("idTienda", "24");
-
-            IRestResponse response = client.Execute(request);
-
-            if (response.Content.Contains("No hay categorías para cargar"))
-                response.StatusCode = System.Net.HttpStatusCode.OK;
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
-        }
-
-        [TestMethod]
-        public void Promociones()
-        {
-            string controlador = "/api/homeSuper/promociones";
             string endpoint = urlbase + controlador;
 
             var client = new RestClient(endpoint);
