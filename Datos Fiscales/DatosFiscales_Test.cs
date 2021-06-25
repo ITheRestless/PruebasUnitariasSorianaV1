@@ -41,8 +41,7 @@ namespace Datos_Fiscales
 
             IRestResponse response = client.Execute(request);
             
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
-            if (!response.Content.Contains("DEVELOP"))
+            if (response.StatusCode != System.Net.HttpStatusCode.OK || !response.Content.Contains("DEVELOP"))
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
