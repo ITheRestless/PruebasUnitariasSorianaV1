@@ -15,7 +15,7 @@ namespace Cliente
     {
         static string urlbase = "https://appsor02.soriana.com";
 
-        BearerToken token = new BearerToken();
+        //BearerToken token = new BearerToken();
 
         #region Creacion de usuarios
 
@@ -65,8 +65,11 @@ namespace Cliente
 
         // Cliente para la prueba Registrar_Usuario_2
         static Cliente1 clienteTester18 = new Cliente1("Iván A" + NombreTester, "ivan9tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        
+
         #endregion
+
+        static Cliente1 cliente = RegistrarCliente(clienteTester3);
+        static BearerToken token = ObtenerToken(clienteTester4);
 
         [TestMethod]
         public void Registrar_Usuario()
@@ -109,13 +112,10 @@ namespace Cliente
         [TestMethod]
         public void Modificar_Cliente()
         {
-            Cliente1 cliente1 = RegistrarCliente(clienteTester5);
-            token = ObtenerToken(clienteTester6);
-
             string controlador = "/api/account/UpdateAccountInfo";
             string endpoint = urlbase + controlador;
 
-            ClienteAlterno cliente = clienteTester6;
+            ClienteAlterno cliente = clienteTester4;
             cliente.ApellidoPaterno = "Márquez";
             cliente.ApellidoMaterno = "Horta";
             cliente.Telefono = "8717321111";
@@ -138,8 +138,6 @@ namespace Cliente
         [TestMethod]
         public void Obtener_Informacion_Usuario()
         {
-            token = ObtenerToken(clienteTester);
-
             string controlador = "/api/account/GetUserWithToken";
             string endpoint = urlbase + controlador;
 
@@ -158,11 +156,8 @@ namespace Cliente
         [TestMethod]
         public void Cambiar_Contrasena()
         {
-            Cliente1 cliente1 = RegistrarCliente(clienteTester7);
-            token = ObtenerToken(clienteTester8);
-
             AuxiliarPassword auxPass = new AuxiliarPassword();
-            auxPass.OldPassword = clienteTester.Password;
+            auxPass.OldPassword = clienteTester8.Password;
             auxPass.NewPassword = "123456prueba";
             auxPass.ConfirmPassword = "123456prueba";
 
@@ -186,9 +181,6 @@ namespace Cliente
         [TestMethod]
         public void Aceptar_Terminos_Condiciones()
         {
-            Cliente1 cliente1 = RegistrarCliente(clienteTester10);
-            token = ObtenerToken(clienteTester11);
-
             string controlador = "/api/account/AceptarTerminos";
             string endpoint = urlbase + controlador;
 
@@ -214,8 +206,6 @@ namespace Cliente
         [TestMethod]
         public void Recuperar_Contrasena()
         {
-            Cliente1 cliente = RegistrarCliente(clienteTester9);
-
             string controlador = "/api/account/RecuperarPass";
             string endpoint = urlbase + controlador;
 
@@ -234,9 +224,6 @@ namespace Cliente
         [TestMethod]
         public void Confirmar_Codigo()
         {
-            Cliente1 cliente = RegistrarCliente(clienteTester3);
-            token = ObtenerToken(clienteTester4);
-
             string controlador = "/api/account/ValidarCodigo";
             string endpoint = urlbase + controlador;
 
@@ -278,9 +265,6 @@ namespace Cliente
         [TestMethod]
         public void Vincular_Tarjeta()
         {
-            Cliente1 cliente = RegistrarCliente(clienteTester14);
-            token = ObtenerToken(clienteTester15);
-
             string controlador = "/api/account/VincularTarjeta";
             string endpoint = urlbase + controlador;
 
@@ -305,8 +289,6 @@ namespace Cliente
         [TestMethod]
         public void Vincular_Tarjeta_Ticket()
         {
-            token = ObtenerToken(clienteTester);
-
             string controlador = "/api/account/VincularTarjetaTicket";
             string endpoint = urlbase + controlador;
 
@@ -331,9 +313,6 @@ namespace Cliente
         [TestMethod]
         public void Crear_Tarjeta_Virtual()
         {
-            Cliente1 cliente = RegistrarCliente(clienteTester16);
-            token = ObtenerToken(clienteTester17);
-
             string controlador = "/api/account/CrearTarjetaVirtual";
             string endpoint = urlbase + controlador;
 
@@ -357,8 +336,6 @@ namespace Cliente
         [TestMethod]
         public void Cambio_Tarjeta()
         {
-            token = ObtenerToken(clienteTester);
-
             string controlador = "/api/account/CambioTarjeta";
             string endpoint = urlbase + controlador;
 
@@ -399,7 +376,7 @@ namespace Cliente
 
 
         // MÉTODO PARA OBTENER EL TOKEN
-        public BearerToken ObtenerToken(ClienteAlterno cliente)
+        public static BearerToken ObtenerToken(ClienteAlterno cliente)
         {
             string controlador = "/api/token/GetToken";
             string endpoint = urlbase + controlador;

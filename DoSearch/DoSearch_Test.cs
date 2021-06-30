@@ -68,9 +68,9 @@ namespace DoSearch
         public void ArticulosPorPromocion()
         {
             Promociones promociones = get_Estracto_Promociones();
-            long tag = promociones.Categorias[0].Articulos[0].Promotions[0];
-
-            string controlador = "/api/dosearch/articulosPorPromocion";
+            string tag = promociones.Categorias[0].Tag;
+            
+            string controlador = "/api/dosearch/articulosPorPromocion2";
             string endpoint = urlbase + controlador;
             var client = new RestClient(endpoint);
             client.Timeout = -1;
@@ -90,7 +90,7 @@ namespace DoSearch
         // MÉTODO PARA OBTENER UNA PROMOCIÓN ACTIVA
         public Promociones get_Estracto_Promociones()
         {
-            string controlador = "/api/categoria/GetEstractoPromocionesPage";
+            string controlador = "/api/categoria/GetEstractoPromocionesPage2";
             string endpoint = urlbase + controlador;
 
             var client = new RestClient(endpoint);
