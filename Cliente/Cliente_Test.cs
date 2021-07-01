@@ -316,8 +316,8 @@ namespace Cliente
         [TestMethod]
         public void Crear_Tarjeta_Virtual()
         {
-            Cliente1 clienteTarjeta = RegistrarCliente(clienteTester14);
-            BearerToken token2 = ObtenerToken(clienteTester15);
+            Cliente1 clienteTarjeta = RegistrarCliente(clienteTester16);
+            BearerToken token2 = ObtenerToken(clienteTester17);
 
             string controlador = "/api/account/CrearTarjetaVirtual";
             string endpoint = urlbase + controlador;
