@@ -316,18 +316,21 @@ namespace Cliente
         [TestMethod]
         public void Crear_Tarjeta_Virtual()
         {
+            Cliente1 clienteTarjeta = RegistrarCliente(clienteTester14);
+            BearerToken token2 = ObtenerToken(clienteTester15);
+
             string controlador = "/api/account/CrearTarjetaVirtual";
             string endpoint = urlbase + controlador;
 
             TarjetaLealtadM tarjetaLealtadM = new TarjetaLealtadM()
             {
-                Mail = cliente.Mail
+                Mail = clienteTarjeta.Mail
             };
 
             var client = new RestClient(endpoint);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
-            request.AddHeader("bearertoken", token.AccessToken);
+            request.AddHeader("bearertoken", token2.AccessToken);
             request.AddParameter("application/json", tarjetaLealtadM.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
