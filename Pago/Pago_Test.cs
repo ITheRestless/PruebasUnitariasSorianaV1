@@ -28,7 +28,14 @@ namespace Pago
             var request = new RestRequest(Method.POST);
             request.AddHeader("bearertoken", token.AccessToken);
             request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", "{\"URL\": 37dsdsdsdsd53, \"NumOrden\" :\"111\"}", ParameterType.RequestBody);
+            var body = @"{
+            " + "\n" +
+                        @"	 ""URL"" : ""37dsdsdsdsd53"",
+            " + "\n" +
+                        @"	 ""NumOrden"":""111""
+            " + "\n" +
+            @"}";
+            request.AddParameter("application/json", body, ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
 
@@ -68,7 +75,7 @@ namespace Pago
             request.AddHeader("disp", "Android");
             request.AddParameter("application/json", cliente.ToJson(), ParameterType.RequestBody);
 
-            IRestResponse response = client.Execute(request);
+            client.Execute(request);
 
             return cliente;
         }
