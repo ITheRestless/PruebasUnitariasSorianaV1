@@ -68,15 +68,34 @@ namespace DoSearch
         public void ArticulosPorPromocion()
         {
             Promociones promociones = get_Estracto_Promociones();
-            string tag = promociones.Categorias[0].Tag;
-            
+            string tag = tag_valido(promociones);
+
             string controlador = "/api/dosearch/articulosPorPromocion2";
             string endpoint = urlbase + controlador;
             var client = new RestClient(endpoint);
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
-            request.AddParameter("application/json", "{\r\n    \"sentencia\":\"\",\r\n    \"page\":\"1\",\r\n    \"idTienda\":\"24\",\r\n    \"brandId\":\"\",\r\n    \"categoryId\":\"\",\r\n    \"orderType\":\"0\",\r\n    \"promotionId\":\"\",\r\n  \"tag\":\"320480\"\r\n}".Replace("320480", tag.ToString().ToString()), ParameterType.RequestBody);
+            var body = @"{"
+                    + "\n" +
+                    @"    ""sentencia"":"""","
+                    + "\n" +
+                    @"    ""page"":""1"", "
+                    + "\n" +
+                    @"    ""idTienda"":""14"", "
+                    + "\n" +
+                    @"    ""brandId"":"""", "
+                    + "\n" +
+                    @"    ""categoryId"":"""", "
+                    + "\n" +
+                    @"    ""orderType"":""0"", "
+                    + "\n" +
+                    @"    ""promotionId"":"""", "
+                    + "\n" +
+                    @"    ""tag"":"" " + tag + " \" "
+                    + "\n" +
+                    @"}";
+            request.AddParameter("application/json", body, ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
             
@@ -86,6 +105,57 @@ namespace DoSearch
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
+
+        // MÉTODO PARA OBTENER UN TAG DE PROMOCIÓN VÁLIDO
+        public string tag_valido(Promociones promociones)
+        {
+            string tag = "";
+
+            if (promociones.Categorias != null)
+            {
+                for (int i = 0; i < promociones.Categorias.Count; i++)
+                {
+                    tag = promociones.Categorias[i].Tag;
+
+                    string controlador = "/api/dosearch/articulosPorPromocion2";
+                    string endpoint = urlbase + controlador;
+
+                    var client = new RestClient(endpoint);
+                    client.Timeout = -1;
+                    var request = new RestRequest(Method.POST);
+                    request.AddHeader("Content-Type", "application/json");
+                    var body = @"{"
+                    + "\n" +
+                    @"    ""sentencia"":"""","
+                    + "\n" +
+                    @"    ""page"":""1"", "
+                    + "\n" +
+                    @"    ""idTienda"":""14"", "
+                    + "\n" +
+                    @"    ""brandId"":"""", "
+                    + "\n" +
+                    @"    ""categoryId"":"""", "
+                    + "\n" +
+                    @"    ""orderType"":""0"", "
+                    + "\n" +
+                    @"    ""promotionId"":"""", "
+                    + "\n" +
+                    @"    ""tag"":"" " + tag + " \" "
+                    + "\n" +
+                    @"}";
+                    request.AddParameter("application/json", body, ParameterType.RequestBody);
+
+                    IRestResponse response = client.Execute(request);
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                        break;
+                }
+
+                return tag;
+            }
+            else
+                return "";
+        }
 
         // MÉTODO PARA OBTENER UNA PROMOCIÓN ACTIVA
         public Promociones get_Estracto_Promociones()
