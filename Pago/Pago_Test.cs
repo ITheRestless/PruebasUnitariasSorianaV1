@@ -17,31 +17,7 @@ namespace Pago
         static Cliente cliente = RegistrarCliente(clienteTester);
         static BearerToken token = ObtenerToken(clienteTester2);
 
-        [TestMethod]
-        public void SaveRedirect()
-        {
-            string controlador = "/api/Pago/SaveRedirect";
-            string endpoint = urlbase + controlador;
-
-            var client = new RestClient(endpoint);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("bearertoken", token.AccessToken);
-            request.AddHeader("Content-Type", "application/json");
-            var body = @"{
-            " + "\n" +
-                        @"	 ""URL"" : ""37dsdsdsdsd53"",
-            " + "\n" +
-                        @"	 ""NumOrden"":""111""
-            " + "\n" +
-            @"}";
-            request.AddParameter("application/json", body, ParameterType.RequestBody);
-
-            IRestResponse response = client.Execute(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);        
-        }
+        
 
 
         // MÉTODO PARA OBTENER EL TOKEN
