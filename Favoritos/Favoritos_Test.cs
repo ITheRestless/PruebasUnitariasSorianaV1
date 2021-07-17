@@ -11,15 +11,33 @@ namespace Favoritos
     {
         static string urlbase = "https://appsor02.soriana.com";
 
-        //static BearerToken token = new BearerToken();
+        /// <summary>
+        /// Variables para decidir si se registrará un nuevo usario para la prueba o si será usado el
+        /// usuario existente, en caso de que el numero aleatorio sea entre 0 y 3 se registrará un
+        /// nuevo usuario, caso contrario se usará el usuario existente.
+        /// </summary>
+        static Random random = new Random();
+        static int numero = random.Next(0, 10);
+        static bool opc = numero > 3 ? true : false;
 
-        static String NombreTester = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
+        /// <summary>
+        /// Estructura para crear un usuario
+        /// </summary>
+        static string NombreTester = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
+        static Cliente clienteNuevo = new Cliente("Iván " + NombreTester, "favoritos_tsttttdev" + NombreTester + "@unittest.com", "12345678", "Rodríguez", "Quiroz");
+        static ClienteAlterno clienteNuevo2 = new ClienteAlterno("Iván " + NombreTester, "favoritos_tsttttdev" + NombreTester + "@unittest.com", "12345678", "Rodríguez", "Quiroz");
 
-        static Cliente clienteTester = new Cliente("Iván " + NombreTester, "tester1favoritos" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        static ClienteAlterno clienteTester2 = new ClienteAlterno("Iván " + NombreTester, "tester1favoritos" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        /// <summary>
+        /// Cliente ya existente dentro de la aplicación
+        /// </summary>
+        static Cliente clienteExistente = new Cliente("Iván Alejandro", "favoritos_tsttttdev@unittest.com", "12345678", "Rodríguez", "Quiroz");
+        static ClienteAlterno clienteExistente2 = new ClienteAlterno("Iván Alejandro", "favoritos_tsttttdev@unittest.com", "12345678", "Rodríguez", "Quiroz");
 
-        static Cliente cliente = RegistrarCliente(clienteTester);
-        static BearerToken token = ObtenerToken(clienteTester2);
+        /// <summary>
+        /// Asignación del cliente a usar con respecto a la decisión anterior con números aleatorios.
+        /// </summary>
+        static Cliente cliente = opc ? clienteExistente : RegistrarCliente(clienteNuevo);
+        static BearerToken token = opc ? ObtenerToken(clienteExistente2) : ObtenerToken(clienteNuevo2);
 
         [TestMethod]
         public void Agregar_Articulos_A_Favoritos()

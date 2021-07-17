@@ -25,9 +25,10 @@ namespace Cliente
         ClienteAlterno clienteTester = new ClienteAlterno("Iván Tester", "ivanrqtester@unittest.com", "123456", "Rodríguez", "Quiroz");
 
         /**
-         * DADO QUE LAS PRUEBAS SE REALIZAN DE MANERA SIMULTANEA, ES NECESARIO CREAR DISTINTOS USUARIOS PARA (CASI) CADA UNA DE ELLAS,
-         * LAS QUE NO REQUIEREN HACER USO DE UN NUEVO USUARIO SON AQUELLAS QUE NO MODIFICAN ALGÚN DATO DEL MISMO
-         */
+         * DADO QUE LAS PRUEBAS SE REALIZAN DE MANERA SIMULTANEA, ES NECESARIO CREAR DISTINTOS USUARIOS PARA 
+         * (CASI) CADA UNA DE ELLAS, LAS QUE NO REQUIEREN HACER USO DE UN NUEVO USUARIO SON AQUELLAS 
+         * QUE NO MODIFICAN ALGÚN DATO DEL MISMO
+        */
 
         // Cliente para la prueba de Registrar_Usuario
         static Cliente1 clienteTester2 = new Cliente1("Iván A " + NombreTester, "testerdevelop" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");        
@@ -36,21 +37,10 @@ namespace Cliente
         static Cliente1 clienteTester3 = new Cliente1("Iván A" + NombreTester, "ivan1tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
         static ClienteAlterno clienteTester4 = new ClienteAlterno("Iván A" + NombreTester, "ivan1tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
 
-        // Cliente para la prueba Modificar_Cliente
-        static Cliente1 clienteTester5 = new Cliente1("Iván A" + NombreTester, "ivan2tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        static ClienteAlterno clienteTester6 = new ClienteAlterno("Iván A" + NombreTester, "ivan2tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-
         // Cliente para la prueba Cambiar_Contrasena
         static Cliente1 clienteTester7 = new Cliente1("Iván A" + NombreTester, "ivan3tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
         static ClienteAlterno clienteTester8 = new ClienteAlterno("Iván A" + NombreTester, "ivan3tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-
-        //Cliente para la prueba Recuperar_Contrasena
-        static Cliente1 clienteTester9 = new Cliente1("Iván A" + NombreTester, "ivan4tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-
-        // Cliente para la prueba Aceptar_Terminos_Condiciones
-        static Cliente1 clienteTester10 = new Cliente1("Iván A" + NombreTester, "ivan5tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-        static ClienteAlterno clienteTester11 = new ClienteAlterno("Iván A" + NombreTester, "ivan5tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
-
+        
         // Cliente para la prueba Reenviar_Codigo
         static Cliente1 clienteTester12 = new Cliente1("Ivan A" + NombreTester, "ivan6tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
         static ClienteAlterno clienteTester13 = new ClienteAlterno("Ivan A" + NombreTester, "ivan6tester" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
