@@ -139,7 +139,7 @@ namespace Stores
         // MÉTODO PARA REGISTRAR CLIENTE
         public static Cliente RegistrarCliente(Cliente cliente)
         {
-            string controlador = "/api/account/RegisterNew";
+            string controlador = "/api/account/RegisterNew2";
             string endpoint = urlbase + controlador;
 
             var client = new RestClient(endpoint);

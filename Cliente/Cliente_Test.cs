@@ -64,7 +64,7 @@ namespace Cliente
         [TestMethod]
         public void Registrar_Usuario()
         {
-            string controlador = "/api/account/RegisterNew";
+            string controlador = "/api/account/RegisterNew2";
             string endpoint = urlbase + controlador;
 
             var client = new RestClient(endpoint);
@@ -352,24 +352,6 @@ namespace Cliente
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
-        [TestMethod]
-        public void Registrar_Usuario_2()
-        {
-            string controlador = "/api/account/RegisterNew2";
-            string endpoint = urlbase + controlador;
-
-            var client = new RestClient(endpoint);
-            client.Timeout = -1;
-            var request = new RestRequest(Method.POST);
-            request.AddHeader("disp", "Android");
-            request.AddParameter("application/json", clienteTester18.ToJson(), ParameterType.RequestBody);
-
-            IRestResponse response = client.Execute(request);
-
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-                throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
-        }
-
 
         // MÉTODO PARA OBTENER EL TOKEN
         public static BearerToken ObtenerToken(ClienteAlterno cliente)
@@ -392,7 +374,7 @@ namespace Cliente
         // MÉTODO PARA REGISTRAR CLIENTE NUEVO
         public static Cliente1 RegistrarCliente(Cliente1 cliente)
         {
-            string controlador = "/api/account/RegisterNew";
+            string controlador = "/api/account/RegisterNew2";
             string endpoint = urlbase + controlador;
 
             var client = new RestClient(endpoint);
