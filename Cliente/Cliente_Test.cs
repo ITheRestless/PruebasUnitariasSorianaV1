@@ -22,7 +22,8 @@ namespace Cliente
         static String NombreTester = DateTime.Now.Day.ToString() + DateTime.Now.Month.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString();
 
         // CLIENTE ESTÁTICO USADO PARA PRUEBAS QUE NO MODIFICAN EN ALGÚN ASPECTO AL CLIENTE
-        ClienteAlterno clienteTester = new ClienteAlterno("Iván Tester", "ivanrqtsttttdev@unittest.com", "123456", "Rodríguez", "Quiroz");
+        Cliente1 clienteToken = new Cliente1("Iván A " + NombreTester, "ivanrqtsttttdev" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
+        ClienteAlterno clienteToken2 = new ClienteAlterno("Iván A " + NombreTester, "ivanrqtsttttdev" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
 
         /**
          * DADO QUE LAS PRUEBAS SE REALIZAN DE MANERA SIMULTANEA, ES NECESARIO CREAR DISTINTOS USUARIOS PARA 
@@ -33,7 +34,7 @@ namespace Cliente
         // Cliente para la prueba de Registrar_Usuario
         static Cliente1 clienteTester2 = new Cliente1("Iván A " + NombreTester, "testerdeveloptsttttdev" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");        
         
-        // Cliente para la prueba Confirmar_Codigo
+        // Cliente estático
         static Cliente1 clienteTester3 = new Cliente1("Iván A" + NombreTester, "ivan1tsttttdev" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
         static ClienteAlterno clienteTester4 = new ClienteAlterno("Iván A" + NombreTester, "ivan1tsttttdev" + NombreTester + "@unittest.com", "123456", "Rodríguez", "Quiroz");
 
@@ -83,6 +84,8 @@ namespace Cliente
         [TestMethod]
         public void Obtener_Token()
         {
+            Cliente1 cliente = RegistrarCliente(clienteToken);
+
             string controlador = "/api/token/GetToken";
             string endpoint = urlbase + controlador;
 
@@ -91,14 +94,14 @@ namespace Cliente
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("Cookie", "ak_bmsc=1B2DBCB5D80264AA0698B7F0AC518ABCBDF7CF37470800008F7F6B5FEC0F897A~pl/oJgJTrrHhbQTqb4FK0MGGUg6rCfUibWDDgML6mVfnc4voiQnt0bN75qp83XTuKTyEYCh1U6ILMXH71QaJF37B601rg6tJevK8K916oHEpaRqXtKR5ZSwK3VdkH4iyYUQkBJ1zWg+EdCpLPKeFsgVRlVEVKw7YAvgO9i9qbQm9Vx3zIpWWf6xCDcBOa4a6tMYWPEhvRoZ8WlS3llWtt/JuSf67BcnsZk1QiCnyxOEuE=");
-            request.AddParameter("application/json", clienteTester.ToJson(), ParameterType.RequestBody);
+            request.AddParameter("application/json", clienteToken2.ToJson(), ParameterType.RequestBody);
 
             IRestResponse response = client.Execute(request);
 
             if (response.StatusCode != System.Net.HttpStatusCode.OK)
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
-
+ 
         [TestMethod]
         public void Modificar_Cliente()
         {

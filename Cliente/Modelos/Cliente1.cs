@@ -81,7 +81,8 @@ namespace Cliente.Modelos
             string count6 = Convert.ToString(Regex.Matches(usr, "u").Count);
 
             var strCode = count1 + count2 + count3 + count4 + count5 + count6;
-            return strCode.Substring(0, 6);
+            //return strCode.Substring(0, 6)
+            return "981913";
         }
 
         internal class ParseStringConverter : JsonConverter

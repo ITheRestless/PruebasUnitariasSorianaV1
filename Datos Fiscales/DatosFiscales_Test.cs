@@ -10,6 +10,8 @@ namespace Datos_Fiscales
     {
         static string urlbase = "https://appsor02.soriana.com";
 
+        #region Cliente
+
         /// <summary>
         /// Variables para decidir si se registrará un nuevo usario para la prueba o si será usado el
         /// usuario existente, en caso de que el numero aleatorio sea entre 0 y 3 se registrará un
@@ -37,6 +39,8 @@ namespace Datos_Fiscales
         /// </summary>
         static Cliente cliente = opc ? clienteExistente : RegistrarCliente(clienteNuevo);
         static BearerToken token = opc ? ObtenerToken(clienteExistente2) : ObtenerToken(clienteNuevo2);
+
+        #endregion
 
         [TestMethod]
         public void Registrar_Datos_Fiscales()

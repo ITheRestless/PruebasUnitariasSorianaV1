@@ -17,6 +17,8 @@ namespace Carrito_Promos_Elegibles
         /// </summary>
         int visita = 0;
 
+        #region Cliente
+
         /// <summary>
         /// Variables para decidir si se registrará un nuevo usario para la prueba o si será usado el
         /// usuario existente, en caso de que el numero aleatorio sea entre 0 y 3 se registrará un
@@ -44,6 +46,8 @@ namespace Carrito_Promos_Elegibles
         /// </summary>
         static Cliente cliente = opc ? clienteExistente : RegistrarCliente(clienteNuevo);
         static BearerToken token = opc ? ObtenerToken(clienteExistente2) : ObtenerToken(clienteNuevo2);
+
+        #endregion
 
         [TestMethod]
         public void Crear_Visita()
