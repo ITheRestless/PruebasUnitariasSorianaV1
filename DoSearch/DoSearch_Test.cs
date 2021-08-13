@@ -14,7 +14,7 @@ namespace DoSearch
         [TestMethod]
         public void BusquedaPorSentencia()
         {
-            string controlador = "/api/dosearch/sentencia5";
+            string controlador = "/api/dosearch/sentencia6";
             string endpoint = urlbase + controlador;
             var client = new RestClient(endpoint);
             client.Timeout = -1;
@@ -24,9 +24,7 @@ namespace DoSearch
 
             IRestResponse response = client.Execute(request);
 
-            Assert.AreEqual(System.Net.HttpStatusCode.OK, response.StatusCode);
-
-            if (!response.Content.Contains("AGUACATE"))
+            if (response.StatusCode != System.Net.HttpStatusCode.OK || !response.Content.Contains("AGUACATE"))
                 throw new Exception("Status Code:" + response.StatusCode + " | Contenido respuesta: " + response.Content);
         }
 
@@ -50,7 +48,7 @@ namespace DoSearch
         [TestMethod]
         public void ProductosPorSubcategoria()
         {
-            string controlador = "/api/dosearch/subcategoria4";
+            string controlador = "/api/dosearch/subcategoria5";
             string endpoint = urlbase + controlador;
             var client = new RestClient(endpoint);
             client.Timeout = -1;
@@ -82,7 +80,7 @@ namespace DoSearch
                     + "\n" +
                     @"    ""page"":""1"", "
                     + "\n" +
-                    @"    ""idTienda"":""14"", "
+                    @"    ""idTienda"":""24"", "
                     + "\n" +
                     @"    ""brandId"":"""", "
                     + "\n" +
@@ -130,7 +128,7 @@ namespace DoSearch
                     + "\n" +
                     @"    ""page"":""1"", "
                     + "\n" +
-                    @"    ""idTienda"":""14"", "
+                    @"    ""idTienda"":""24"", "
                     + "\n" +
                     @"    ""brandId"":"""", "
                     + "\n" +
